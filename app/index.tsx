@@ -1,17 +1,11 @@
-import data from '@/data/data.json';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import Boards from '@/components/boards';
 
 export default function Index() {
-  const boards = data.boards;
-  const tasks = data.tasks;
-
   return (
     <View style={styles.test}>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-
-      {tasks.map((task) => (
-        <Text key={task.id}>{task.id}</Text>
-      ))}
+      <Boards name={'test'} />
     </View>
   );
 }

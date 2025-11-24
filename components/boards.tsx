@@ -1,11 +1,29 @@
 import data from '@/data/data.json';
-import { Text, View } from 'react-native';
+import PropTypes from 'prop-types';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default function Boards() {
+const Boards = (name) => {
   const boardsArr = data.boards;
   return (
-    <View>
-      <Text>Hello</Text>
+    <View style={styles.mainBoard}>
+      {boardsArr.map((board) => (
+        <Text style={styles.boardText} key={(board.name, board.description)}>
+          {board.name}
+          {board.description}
+        </Text>
+      ))}
+      <Text>{name}</Text>
     </View>
   );
-}
+};
+// er smá test með types
+Boards.PropTypes = {
+  name: PropTypes.string,
+};
+
+const styles = StyleSheet.create({
+  mainBoard: {},
+  boardText: {},
+});
+
+export default Boards;
