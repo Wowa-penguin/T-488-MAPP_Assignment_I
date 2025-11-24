@@ -5,7 +5,7 @@ import Boards from '@/components/boards';
 export default function Index() {
   return (
     <View style={styles.test}>
-      <Boards name={'test'} />
+      <Boards />
     </View>
   );
 }

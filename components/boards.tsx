@@ -1,29 +1,40 @@
 import data from '@/data/data.json';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
-const Boards = (name) => {
-  const boardsArr = data.boards;
+const Boards = () => {
+  const boards = data.boards;
   return (
     <View style={styles.mainBoard}>
-      {boardsArr.map((board) => (
-        <Text style={styles.boardText} key={(board.name, board.description)}>
-          {board.name}
-          {board.description}
-        </Text>
+      {boards.map((board) => (
+        <View key={(board.name, board.description)} style={styles.board}>
+          <Image
+            source={{
+              width: 150,
+              height: 150,
+              url: board.thumbnailPhoto,
+            }}
+          />
+          <Text>Name: {board.name}</Text>
+          <Text>Description: {board.description}</Text>
+        </View>
       ))}
-      <Text>{name}</Text>
     </View>
   );
 };
-// er smá test með types
-Boards.PropTypes = {
-  name: PropTypes.string,
-};
 
 const styles = StyleSheet.create({
-  mainBoard: {},
-  boardText: {},
+  mainBoard: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+  board: {
+    width: '45%',
+    padding: 10,
+    height: 300,
+    backgroundColor: 'red',
+  },
 });
 
 export default Boards;
