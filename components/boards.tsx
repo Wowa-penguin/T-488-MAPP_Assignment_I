@@ -15,7 +15,7 @@ const Boards = ({ id, name, description, img }: BoardProps) => {
       <Image style={styles.image} source={{ uri: img }} />
       <Link
         href={{
-          pathname: '/lists',
+          pathname: "/lists",
           params: { boardId: id },
         }}
       >
