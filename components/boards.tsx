@@ -10,11 +10,8 @@ const Boards = ({ name, description, img }: BoardProps) => {
   return (
     <View style={styles.board}>
       <Image
-        source={{
-          width: '100%',
-          height: 150,
-          uri: img,
-        }}
+          style={styles.image}
+          source={{ uri: img }}
       />
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.description}>{description}</Text>
@@ -41,7 +38,7 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: '80%',
+    width: '100%',
     aspectRatio: 4 / 3,
     borderRadius: 12,
     marginBottom: 10,
