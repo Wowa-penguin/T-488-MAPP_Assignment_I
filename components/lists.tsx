@@ -9,8 +9,15 @@ type ListProps = {
   boardId: number;
 };
 
+const ListsHeader = ({ boardId }: ListProps) => {
+  return (
+  <View style={styles.header}>
+    <Text style={styles.columnText}>{boardId}</Text>
+  </View>
+  );
+};
 
-const Lists = ({ name, color}: ListProps) => {
+const Lists = ({ name, color, boardId}: ListProps) => {
   return (
     <View style={styles.column}>
       <View style={styles.header}>
@@ -18,6 +25,7 @@ const Lists = ({ name, color}: ListProps) => {
       </View>
 
       <View style={[styles.card, {backgroundColor: color}]}>
+        <Text style={styles.columnText}>{boardId}</Text>
       </View>
 
     </View>
@@ -50,7 +58,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
-  
+  columnText: {
+    fontWeight: '700',
+    fontSize: 14,
+  },
   card: {
     height: 60,
     borderRadius: 8,
