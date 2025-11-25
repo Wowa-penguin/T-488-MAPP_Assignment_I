@@ -1,5 +1,6 @@
 import data from '@/data/data.json';
 import { StyleSheet, Text, View } from 'react-native';
+import TaskCard from '@/components/tasks';
 
 import Boards from '@/components/boards';
 
@@ -15,6 +16,7 @@ export default function Index() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Toodler</Text>
       </View>
+      
       <View style={styles.mainBoard}>
         {boards.map((board) => (
           <Boards
