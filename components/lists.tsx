@@ -1,4 +1,5 @@
 import data from '@/data/data.json';
+import { Link } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -27,9 +28,16 @@ const Lists = ({ id, name, color, boardId, tasks }: ListProps) => {
       </View>
       <View style={[styles.card, { backgroundColor: color }]}>
         {tasks.map((task) => (
-          <Text style={styles.columnText} key={task.name}>
-            {task.name}
-          </Text>
+          <Link
+            href={{
+              pathname: '/tasks',
+              params: { id: id },
+            }}
+            push
+            key={task.name}
+          >
+            <Text style={styles.columnText}>{task.name}</Text>
+          </Link>
         ))}
       </View>
     </View>

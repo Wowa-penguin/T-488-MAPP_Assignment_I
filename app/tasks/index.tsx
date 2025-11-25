@@ -4,38 +4,20 @@ import { useLocalSearchParams } from 'expo-router';
 import { View } from 'react-native';
 
 const Index = () => {
-  const { listId } = useLocalSearchParams();
+  const { taskId } = useLocalSearchParams();
 
   const tasks = data.tasks;
-  const renderTasks: {
-    id: number;
-    name: string;
-    description: string;
-    isFinished: boolean;
-    listId: number;
-  }[] = [];
-
-  tasks.forEach((task) => {
-    if (Number(listId) === task.listId) renderTasks.push(task);
-  });
-
+  const currTask = tasks[Number(taskId)];
+  //todo: það er villa hér sem ég er að vinna í ekki bryta þessu
   return (
     <View>
-      {renderTasks.map((task) => (
-        <View
-          key={
-            (task.id, task.name, task.description, task.isFinished, task.listId)
-          }
-        >
-          <Tasks
-            id={task.id}
-            name={task.name}
-            description={task.description}
-            isFinished={task.isFinished}
-            listId={task.listId}
-          />
-        </View>
-      ))}
+      <Tasks
+        id={currTask.id}
+        name={currTask.name}
+        description={currTask.description}
+        isFinished={currTask.isFinished}
+        listId={currTask.listId}
+      />
     </View>
   );
 };

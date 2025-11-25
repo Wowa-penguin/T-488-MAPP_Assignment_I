@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-type TaskProps = {
+type TaskProp = {
   id: number;
   name: string;
   description: string;
@@ -9,7 +9,7 @@ type TaskProps = {
   listId: number;
 };
 
-const Tasks = ({ name, description, isFinished }: TaskProps) => {
+const Tasks = ({ id, name, description, isFinished, listId }: TaskProp) => {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{name}</Text>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontSize: 12,
     color: '#6b7280',
-  }
+  },
 });
 
 export default Tasks;
