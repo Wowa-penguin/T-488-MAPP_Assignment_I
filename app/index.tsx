@@ -18,7 +18,10 @@ export default function Index() {
       <View style={styles.mainBoard}>
         {boards.map((board) => (
           <Boards
-            key={(board.name, board.description, board.thumbnailPhoto)}
+            key={
+              (board.id, board.name, board.description, board.thumbnailPhoto)
+            }
+            id={board.id}
             name={board.name}
             description={board.description}
             img={board.thumbnailPhoto}

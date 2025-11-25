@@ -1,20 +1,27 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+import { Link } from 'expo-router';
+
 type BoardProps = {
+  id: number;
   name: string;
   description: string;
   img: string;
 };
 
-const Boards = ({ name, description, img }: BoardProps) => {
+const Boards = ({ id, name, description, img }: BoardProps) => {
   return (
     <View style={styles.board}>
-      <Image
-          style={styles.image}
-          source={{ uri: img }}
-      />
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Image style={styles.image} source={{ uri: img }} />
+      <Link
+        href={{
+          pathname: '/lists',
+          params: { boardId: id },
+        }}
+      >
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.description}>{description}</Text>
+      </Link>
     </View>
   );
 };
