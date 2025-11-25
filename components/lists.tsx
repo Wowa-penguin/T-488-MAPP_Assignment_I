@@ -2,21 +2,24 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 
-type ListColumnProps = {
+type ListProps = {
   name: string;
+  id: number;
+  color: string;
+  boardId: number;
 };
 
 
-const ListColumn = ({ name }: ListColumnProps) => {
+const Lists = ({ name, color}: ListProps) => {
   return (
     <View style={styles.column}>
       <View style={styles.header}>
         <Text style={styles.headerText}>{name.toUpperCase()}</Text>
       </View>
 
-      <View style={styles.card} />
-      <View style={styles.card} />
-      <View style={styles.card} />
+      <View style={[styles.card, {backgroundColor: color}]}>
+      </View>
+
     </View>
   );
 };
@@ -26,7 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 40,
     paddingHorizontal: 16,
-    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   column: {
-    backgroundColor: '#deefffff',
+    backgroundColor: 'ff',
     padding: 12,
     marginRight: 12,
   },
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+  
   card: {
     height: 60,
     borderRadius: 8,
@@ -56,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListColumn;
+export default Lists;
