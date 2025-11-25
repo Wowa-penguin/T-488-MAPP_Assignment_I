@@ -1,12 +1,7 @@
-import data from '@/data/data.json';
+import BoardList from '@/components/boardList';
 import { StyleSheet, Text, View } from 'react-native';
-import TaskCard from '@/components/tasks';
-
-import Boards from '@/components/boards';
 
 export default function Index() {
-  const boards = data.boards;
-
   return (
     <View
       style={{
@@ -16,20 +11,7 @@ export default function Index() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Toodler</Text>
       </View>
-      
-      <View style={styles.mainBoard}>
-        {boards.map((board) => (
-          <Boards
-            key={
-              (board.id, board.name, board.description, board.thumbnailPhoto)
-            }
-            id={board.id}
-            name={board.name}
-            description={board.description}
-            img={board.thumbnailPhoto}
-          />
-        ))}
-      </View>
+      <BoardList />
     </View>
   );
 }
@@ -48,15 +30,5 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '900',
     color: '#444',
-  },
-
-  mainBoard: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    paddingHorizontal: 10,
-    paddingTop: 20,
-    backgroundColor: '#f2f2f2',
   },
 });

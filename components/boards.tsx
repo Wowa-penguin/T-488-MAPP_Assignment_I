@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { Link } from 'expo-router';
 
@@ -7,28 +14,32 @@ type BoardProps = {
   name: string;
   description: string;
   img: string;
+  onDelete: () => void;
 };
 
-const Boards = ({ id, name, description, img }: BoardProps) => {
+const Boards = ({ id, name, description, img, onDelete }: BoardProps) => {
   return (
-    <View style={styles.board}>
+    <ScrollView style={styles.board}>
       <Image style={styles.image} source={{ uri: img }} />
       <Link
         href={{
-          pathname: "/lists",
+          pathname: '/lists',
           params: { boardId: id },
         }}
       >
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <View style={styles.textDiv}>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.description}>{description}</Text>
+        </View>
       </Link>
-    </View>
+      <Button title="Delete" onPress={onDelete} />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   board: {
-    width: '45%',
+    width: '100%',
     padding: 10,
     backgroundColor: 'skyblue',
     borderRadius: 16,
@@ -42,6 +53,11 @@ const styles = StyleSheet.create({
 
     // --- Android
     elevation: 4,
+  },
+
+  textDiv: {
+    flex: 1,
+    alignItems: 'flex-start',
   },
 
   image: {
