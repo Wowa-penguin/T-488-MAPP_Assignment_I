@@ -1,33 +1,37 @@
+import data from '@/data/data.json';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
 
 type ListProps = {
   name: string;
   id: number;
   color: string;
   boardId: number;
+  tasks: {
+    id: number;
+    name: string;
+    description: string;
+    isFinished: boolean;
+    listId: number;
+  }[];
 };
 
-const ListsHeader = ({ boardId }: ListProps) => {
-  return (
-  <View style={styles.header}>
-    <Text style={styles.columnText}>{boardId}</Text>
-  </View>
-  );
-};
+const Lists = ({ id, name, color, boardId, tasks }: ListProps) => {
+  const boards = data.boards;
+  // boards[boardId - 1].name
 
-const Lists = ({ name, color, boardId}: ListProps) => {
   return (
     <View style={styles.column}>
       <View style={styles.header}>
         <Text style={styles.headerText}>{name.toUpperCase()}</Text>
       </View>
-
-      <View style={[styles.card, {backgroundColor: color}]}>
-        <Text style={styles.columnText}>{boardId}</Text>
+      <View style={[styles.card, { backgroundColor: color }]}>
+        {tasks.map((task) => (
+          <Text style={styles.columnText} key={task.name}>
+            {task.name}
+          </Text>
+        ))}
       </View>
-
     </View>
   );
 };
