@@ -4,11 +4,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { View } from 'react-native';
 
 const Index = () => {
-  const { taskId } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
 
   const tasks = data.tasks;
-  const currTask = tasks[Number(taskId)];
-  //todo: það er villa hér sem ég er að vinna í ekki bryta þessu
+  const currTask = tasks[Number(id) - 1];
+
   return (
     <View>
       <Tasks

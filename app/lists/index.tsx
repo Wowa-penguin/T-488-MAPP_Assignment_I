@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 const Index = () => {
   const { boardId } = useLocalSearchParams();
-  const [lists, setLists] = useState(data.lists);
+  const [lists, setLists] = useState(data.lists); // * til að breyta þegar við bætum við lista ekki taka út
 
   const tasks = data.tasks;
 

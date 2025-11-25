@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 type TaskProp = {
@@ -10,16 +10,16 @@ type TaskProp = {
 };
 
 const Tasks = ({ id, name, description, isFinished, listId }: TaskProp) => {
+  const [finished, setFinished] = useState(isFinished);
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{name}</Text>
 
-      {description ? (
-        <Text style={styles.description}>{description}</Text>
-      ) : null}
+      <Text style={styles.description}>{description}</Text>
 
       <Text style={styles.status}>
-        {isFinished ? '✅ Done' : '⏳ In progress'}
+        {finished ? '✅ Done' : '⏳ In progress'}
       </Text>
     </View>
   );

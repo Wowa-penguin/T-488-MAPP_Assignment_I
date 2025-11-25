@@ -31,7 +31,7 @@ const Lists = ({ id, name, color, boardId, tasks }: ListProps) => {
           <Link
             href={{
               pathname: '/tasks',
-              params: { id: id },
+              params: { id: task.id },
             }}
             push
             key={task.name}
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   card: {
     height: 60,
+    padding: 10,
     borderRadius: 8,
     backgroundColor: '#ffffffff',
     marginBottom: 8,
