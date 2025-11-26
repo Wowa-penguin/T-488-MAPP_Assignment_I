@@ -1,4 +1,3 @@
-import data from '@/data/data.json';
 import { Link } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -18,9 +17,6 @@ type ListProps = {
 };
 
 const Lists = ({ id, name, color, boardId, tasks }: ListProps) => {
-  const boards = data.boards;
-  // boards[boardId - 1].name
-
   return (
     <View style={styles.column}>
       <View style={styles.header}>
@@ -75,11 +71,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   card: {
-    height: 60,
     padding: 10,
     borderRadius: 8,
-    backgroundColor: '#ffffffff',
-    marginBottom: 8,
   },
 });
 
