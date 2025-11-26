@@ -2,28 +2,61 @@ import Lists from '@/components/lists';
 import data from '@/data/data.json';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+
+type ListsType = {
+  id: number;
+  name: string;
+  color: string;
+  boardId: number;
+};
 
 const Index = () => {
-  const { boardId } = useLocalSearchParams();
-  const [lists, setLists] = useState(data.lists); // * til að breyta þegar við bætum við lista ekki taka út
+  const { bId } = useLocalSearchParams();
+  const boardId = Number(bId);
+
+  const [lists, setLists] = useState<ListsType[]>(data.lists);
+  const [name, setName] = useState('');
+  const [color, setColor] = useState('');
 
   const boards = data.boards;
   const tasks = data.tasks;
 
-  const boardName = boards[Number(boardId) - 1].name;
+  const board = boards.find((b: { id: number }) => b.id === boardId);
+  const boardName = board?.name;
 
   const renderLists = lists
-    .filter((list) => Number(boardId) === list.boardId)
+    .filter((list) => Number(bId) === list.boardId)
     .map((list) => ({
       ...list,
       tasks: tasks.filter((task) => task.listId === list.id),
     }));
 
-  console.log(renderLists[0].tasks);
+  const handleAddList = () => {
+    const newId = lists[lists.length - 1].id + 1;
+
+    const newList: ListsType = {
+      id: newId,
+      name: name.trim(),
+      color: color.trim(),
+      boardId,
+    };
+
+    setLists((prev) => [...prev, newList]);
+
+    setName('');
+    setColor('');
+  };
 
   return (
-    <View>
+    <ScrollView style={styles.mainContainer}>
       <View style={styles.boardNameView}>
         <Text style={styles.boardName}>{boardName}</Text>
       </View>
@@ -38,11 +71,34 @@ const Index = () => {
           />
         </View>
       ))}
-    </View>
+      <View style={styles.button}>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Color"
+          value={color}
+          onChangeText={setColor}
+        />
+        <Button
+          title="Add new list"
+          color={'#21252b'}
+          onPress={handleAddList}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    height: '100%',
+  },
   boardName: {
     fontWeight: 'bold',
     fontSize: 28,
@@ -50,6 +106,21 @@ const styles = StyleSheet.create({
   boardNameView: {
     marginBottom: '8%',
     marginTop: '8%',
+  },
+  button: {
+    //Todo: Vantar góða styles
+    padding: 5,
+    alignSelf: 'center',
+    width: '50%',
+    backgroundColor: '#a2bade',
+    borderRadius: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 10,
   },
 });
 

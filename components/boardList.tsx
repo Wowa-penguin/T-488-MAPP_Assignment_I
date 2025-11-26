@@ -40,8 +40,6 @@ const BoardList = () => {
 
     setBoards((prev) => [...prev, newBoard]);
 
-    boards.forEach((x) => console.log(x.id));
-
     setName('');
     setDescription('');
     setThumbnailPhoto('');

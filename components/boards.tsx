@@ -24,7 +24,7 @@ const Boards = ({ id, name, description, img, onDelete }: BoardProps) => {
       <Link
         href={{
           pathname: '/lists',
-          params: { boardId: id },
+          params: { bId: id },
         }}
       >
         <View style={styles.textDiv}>

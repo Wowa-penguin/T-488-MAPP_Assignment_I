@@ -20,7 +20,9 @@ const Lists = ({ id, name, color, boardId, tasks }: ListProps) => {
   return (
     <View style={styles.column}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>{name.toUpperCase()}</Text>
+        <Text style={styles.headerText}>
+          {name.toUpperCase()} - {id}
+        </Text>
       </View>
       <View style={[styles.card, { backgroundColor: color }]}>
         {tasks.map((task) => (
