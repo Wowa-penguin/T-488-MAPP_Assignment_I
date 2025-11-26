@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 type TaskProp = {
   id: number;
@@ -12,6 +12,10 @@ type TaskProp = {
 const Tasks = ({ id, name, description, isFinished, listId }: TaskProp) => {
   const [finished, setFinished] = useState(isFinished);
 
+  const handleToggleFinished = () => {
+    setFinished((prev) => !prev);
+  };
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{name}</Text>
@@ -21,6 +25,11 @@ const Tasks = ({ id, name, description, isFinished, listId }: TaskProp) => {
       <Text style={styles.status}>
         {finished ? '✅ Done' : '⏳ In progress'}
       </Text>
+
+      <Button
+        title={finished ? 'Mark as not done' : 'Mark as done'}
+        onPress={handleToggleFinished}
+      />  
     </View>
   );
 };
