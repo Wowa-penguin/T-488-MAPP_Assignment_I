@@ -6,7 +6,6 @@ type ListProps = {
   name: string;
   id: number;
   color: string;
-  boardId: number;
   tasks: {
     id: number;
     name: string;
@@ -16,7 +15,7 @@ type ListProps = {
   }[];
 };
 
-const Lists = ({ id, name, color, boardId, tasks }: ListProps) => {
+const Lists = ({ id, name, color, tasks }: ListProps) => {
   return (
     <View style={styles.column}>
       <View style={styles.header}>
