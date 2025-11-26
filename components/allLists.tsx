@@ -55,12 +55,6 @@ const AllLists = ({ boardId }: ListProp) => {
     setColor('');
   };
 
-  console.log('boardName:', boardName);
-  console.log('boardId prop:', boardId);
-  console.log('lists from data:', lists);
-  console.log('renderLists:', renderLists);
-  console.log('renderListsTasks:', renderLists[0].tasks);
-
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.boardNameView}>
@@ -101,7 +95,6 @@ const AllLists = ({ boardId }: ListProp) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     height: '100%',
   },
   boardName: {
