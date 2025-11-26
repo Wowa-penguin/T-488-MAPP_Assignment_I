@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { useData } from '@/util/dataState';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 type TaskProp = {
   id: number;
@@ -9,27 +9,45 @@ type TaskProp = {
   listId: number;
 };
 
-const Tasks = ({ id, name, description, isFinished, listId }: TaskProp) => {
-  const [finished, setFinished] = useState(isFinished);
+type TaskType = {
+  id: number;
+  name: string;
+  description: string;
+  isFinished: boolean;
+  listId: number;
+};
+
+const Tasks = ({ id, name, description }: TaskProp) => {
+  const { tasks, setTasks } = useData();
+
+  const task = tasks.find((t) => t.id === id);
+
+  const updateTask = (taskId: number, updatedFields: Partial<TaskType>) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId ? { ...task, ...updatedFields } : task
+      )
+    );
+  };
 
   const handleToggleFinished = () => {
-    setFinished((prev) => !prev);
+    updateTask(id, { isFinished: !task?.isFinished });
   };
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{name}</Text>
+      <Text style={styles.title}>{task?.name}</Text>
 
-      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.description}>{task?.description}</Text>
 
       <Text style={styles.status}>
-        {finished ? '✅ Done' : '⏳ In progress'}
+        {task?.isFinished ? '✅ Done' : '⏳ In progress'}
       </Text>
 
       <Button
-        title={finished ? 'Mark as not done' : 'Mark as done'}
+        title={task?.isFinished ? 'Mark as not done' : 'Mark as done'}
         onPress={handleToggleFinished}
-      />  
+      />
     </View>
   );
 };

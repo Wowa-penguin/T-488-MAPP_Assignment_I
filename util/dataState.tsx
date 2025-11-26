@@ -15,11 +15,21 @@ type ListType = {
   boardId: number;
 };
 
+type TaskType = {
+  id: number;
+  name: string;
+  description: string;
+  isFinished: boolean;
+  listId: number;
+};
+
 type DataContextType = {
   boards: BoardType[];
   setBoards: React.Dispatch<React.SetStateAction<BoardType[]>>;
   lists: ListType[];
   setLists: React.Dispatch<React.SetStateAction<ListType[]>>;
+  tasks: TaskType[];
+  setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
 };
 
 const DataContext = createContext<DataContextType | null>(null);
@@ -27,9 +37,12 @@ const DataContext = createContext<DataContextType | null>(null);
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [boards, setBoards] = useState<BoardType[]>(data.boards);
   const [lists, setLists] = useState<ListType[]>(data.lists);
+  const [tasks, setTasks] = useState<TaskType[]>(data.tasks);
 
   return (
-    <DataContext.Provider value={{ boards, setBoards, lists, setLists }}>
+    <DataContext.Provider
+      value={{ boards, setBoards, lists, setLists, tasks, setTasks }}
+    >
       {children}
     </DataContext.Provider>
   );
