@@ -1,6 +1,6 @@
 import { Link } from 'expo-router';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 type ListProps = {
   name: string;
@@ -13,9 +13,19 @@ type ListProps = {
     isFinished: boolean;
     listId: number;
   }[];
+  onAddTask: (name: string, description: string) => void;
 };
 
-const Lists = ({ id, name, color, tasks }: ListProps) => {
+const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+
+  const handleAdd = () => {
+    onAddTask(taskName, taskDescription);
+    setTaskName('');
+    setTaskDescription('');
+  };
+  
   return (
     <View style={styles.column}>
       <View style={styles.header}>
@@ -31,11 +41,27 @@ const Lists = ({ id, name, color, tasks }: ListProps) => {
               params: { id: task.id },
             }}
             push
-            key={task.name}
+            key={task.id}
           >
             <Text style={styles.columnText}>{task.name}</Text>
           </Link>
         ))}
+
+        <View style={styles.addTaskContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="New task name"
+            value={taskName}
+            onChangeText={setTaskName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Description (optional)"
+            value={taskDescription}
+            onChangeText={setTaskDescription}
+          />
+          <Button title="Add task" onPress={handleAdd} />
+        </View>
       </View>
     </View>
   );
@@ -76,6 +102,20 @@ const styles = StyleSheet.create({
   card: {
     padding: 10,
     borderRadius: 8,
+  },
+  addTaskContainer: {
+    marginTop: 10,
+    backgroundColor: '#ffffffaa',
+    padding: 8,
+    borderRadius: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    padding: 6,
+    marginBottom: 6,
+    fontSize: 13,
   },
 });
 

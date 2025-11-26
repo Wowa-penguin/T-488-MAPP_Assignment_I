@@ -23,14 +23,22 @@ type ListProp = {
   boardId: number;
 };
 
+type TaskType = {
+  id: number;
+  name: string;
+  description: string;
+  isFinished: boolean;
+  listId: number;
+};
+
 const AllLists = ({ boardId }: ListProp) => {
-  const { lists, setLists } = useData();
+  const { lists, setLists, tasks, setTasks } = useData();
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
 
   const boards = data.boards;
-  const tasks = data.tasks;
+  
 
   const board = boards.find((b: { id: number }) => b.id === boardId);
   const boardName = board?.name;
@@ -58,6 +66,26 @@ const AllLists = ({ boardId }: ListProp) => {
     setColor('');
   };
 
+  const handleAddTask = (listId: number, name: string, description: string) => {
+  const trimmedName = name.trim();
+  const trimmedDescription = description.trim();
+
+  if (!trimmedName) return; 
+
+  const lastTask = tasks[tasks.length - 1] as TaskType | undefined;
+  const newId = lastTask ? lastTask.id + 1 : 1;
+
+  const newTask: TaskType = {
+    id: newId,
+    name: trimmedName,
+    description: trimmedDescription,
+    isFinished: false,
+    listId,
+  };
+
+  setTasks((prev) => [...prev, newTask]);
+};
+
   return (
     <ScrollView style={styles.mainContainer}>
       <View style={styles.boardNameView}>
@@ -70,6 +98,9 @@ const AllLists = ({ boardId }: ListProp) => {
             name={list.name}
             color={list.color}
             tasks={list.tasks}
+            onAddTask={(name, description) =>
+              handleAddTask(list.id, name, description)
+            }
           />
         </View>
       ))}
