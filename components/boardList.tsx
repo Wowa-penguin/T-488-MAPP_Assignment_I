@@ -9,6 +9,8 @@ import {
   Text,
   TextInput,
   View,
+  Alert,
+  Modal,
 } from 'react-native';
 
 type BoardType = {
@@ -27,6 +29,7 @@ const BoardList = () => {
   const [thumbnailPhoto, setThumbnailPhoto] = useState('');
 
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
   const handleSubmit = () => {
     if (!name.trim()) return;
@@ -63,6 +66,7 @@ const BoardList = () => {
     setName(board.name);
     setDescription(board.description);
     setThumbnailPhoto(board.thumbnailPhoto);
+    setEditModalVisible(true);
   };
 
   const handleDeleteBoard = (boardToDelete: number) => {
@@ -76,13 +80,76 @@ const BoardList = () => {
     }
   };
 
+  const confirmDeleteBoard = (board: BoardType) => {
+    Alert.alert(
+      'Delete board',
+      `Are you sure you want to delete "${board.name}"?`,
+      [
+        { text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => handleDeleteBoard(board.id),
+        },
+      ],
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Modal
+        visible={editModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            <Text style={styles.formTitle}>Edit Board</Text>
+  
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={name}
+              onChangeText={setName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Description"
+              value={description}
+              onChangeText={setDescription}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Image URL"
+              value={thumbnailPhoto}
+              onChangeText={setThumbnailPhoto}
+            />
+  
+            <Button
+              title="Save changes"
+              onPress={() => {
+                handleSubmit();
+                setEditModalVisible(false);
+              }}
+            />
+  
+            <View style={{ marginTop: 10 }}>
+              <Button
+                title="Cancel"
+                color="#888"
+                onPress={() => {
+                  setEditModalVisible(false);
+                  setEditingId(null);
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+  
       <View style={styles.form}>
-        <Text style={styles.formTitle}>
-          {editingId !== null ? 'Edit board' : 'Create new board'}
-        </Text>
-
+        <Text style={styles.formTitle}>Create new board</Text>
+  
         <TextInput
           style={styles.input}
           placeholder="Name"
@@ -101,41 +168,24 @@ const BoardList = () => {
           value={thumbnailPhoto}
           onChangeText={setThumbnailPhoto}
         />
-
-        <Button
-          title={editingId !== null ? 'Save changes' : 'Add board'}
-          onPress={handleSubmit}
-        />
-
-        {editingId !== null && (
-          <View style={{ marginTop: 8 }}>
-            <Button
-              title="Cancle editing"
-              color="#888"
-              onPress={() => {
-                setEditingId(null);
-                setName('');
-                setDescription('');
-                setThumbnailPhoto('');
-              }}
-            />
-          </View>
-        )}
+  
+        <Button title="Add board" onPress={handleSubmit} />
       </View>
 
       <View style={styles.boardGrid}>
         {boards.map((board) => (
-            <Boards
-              key={board.id}
-              id={board.id}
-              name={board.name}
-              description={board.description}
-              img={board.thumbnailPhoto}
-              onDelete={() => handleDeleteBoard(board.id)}
-              onEdit={() => handleEditBoard(board)}
-            />
+          <Boards
+            key={board.id}
+            id={board.id}
+            name={board.name}
+            description={board.description}
+            img={board.thumbnailPhoto}
+            onDelete={() => confirmDeleteBoard(board)}
+            onEdit={() => handleEditBoard(board)}
+          />
         ))}
       </View>
+  
     </ScrollView>
   );
 };
@@ -181,6 +231,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexWrap: 'wrap',
   },
+
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+  modalContent: {
+    width: '85%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 12,
+    elevation: 10,
+  },
+  
 });
 
 export default BoardList;
