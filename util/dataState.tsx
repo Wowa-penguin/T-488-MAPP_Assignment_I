@@ -1,4 +1,3 @@
-// src/context/DataContext.tsx
 import data from '@/data/data.json';
 import React, { createContext, useContext, useState } from 'react';
 

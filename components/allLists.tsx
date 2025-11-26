@@ -1,6 +1,6 @@
-import { useData } from '@/components/dataState';
 import Lists from '@/components/lists';
 import data from '@/data/data.json';
+import { useData } from '@/util/dataState';
 import React, { useState } from 'react';
 
 import {
