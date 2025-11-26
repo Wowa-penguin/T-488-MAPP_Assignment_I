@@ -1,6 +1,8 @@
 import Lists from '@/components/lists';
 import data from '@/data/data.json';
+import { useData } from '@/util/dataState';
 import React, { useState } from 'react';
+
 import {
   Button,
   ScrollView,
@@ -22,7 +24,8 @@ type ListProp = {
 };
 
 const AllLists = ({ boardId }: ListProp) => {
-  const [lists, setLists] = useState<ListsType[]>(data.lists);
+  const { lists, setLists } = useData();
+
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
 
@@ -54,12 +57,6 @@ const AllLists = ({ boardId }: ListProp) => {
     setName('');
     setColor('');
   };
-
-  console.log('boardName:', boardName);
-  console.log('boardId prop:', boardId);
-  console.log('lists from data:', lists);
-  console.log('renderLists:', renderLists);
-  console.log('renderListsTasks:', renderLists[0].tasks);
 
   return (
     <ScrollView style={styles.mainContainer}>
@@ -101,7 +98,6 @@ const AllLists = ({ boardId }: ListProp) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     height: '100%',
   },
   boardName: {

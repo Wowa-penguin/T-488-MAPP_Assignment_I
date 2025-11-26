@@ -1,6 +1,7 @@
 import Boards from '@/components/boards';
-import data from '@/data/data.json';
+import { useData } from '@/util/dataState';
 import React, { useState } from 'react';
+
 import {
   Button,
   ScrollView,
@@ -18,7 +19,7 @@ type BoardType = {
 };
 
 const BoardList = () => {
-  const [boards, setBoards] = useState<BoardType[]>(data.boards);
+  const { boards, setBoards } = useData();
 
   //const [id, setId] = useState(0);
   const [name, setName] = useState('');
