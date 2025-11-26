@@ -1,6 +1,8 @@
+import { useData } from '@/components/dataState';
 import Lists from '@/components/lists';
 import data from '@/data/data.json';
 import React, { useState } from 'react';
+
 import {
   Button,
   ScrollView,
@@ -22,7 +24,8 @@ type ListProp = {
 };
 
 const AllLists = ({ boardId }: ListProp) => {
-  const [lists, setLists] = useState<ListsType[]>(data.lists);
+  const { lists, setLists } = useData();
+
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
 
