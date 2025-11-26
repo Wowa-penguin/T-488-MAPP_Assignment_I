@@ -11,13 +11,7 @@ const Index = () => {
 
   return (
     <View>
-      <Tasks
-        id={currTask.id}
-        name={currTask.name}
-        description={currTask.description}
-        isFinished={currTask.isFinished}
-        listId={currTask.listId}
-      />
+      <Tasks id={currTask.id} />
     </View>
   );
 };

@@ -3,10 +3,6 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 
 type TaskProp = {
   id: number;
-  name: string;
-  description: string;
-  isFinished: boolean;
-  listId: number;
 };
 
 type TaskType = {
@@ -17,7 +13,7 @@ type TaskType = {
   listId: number;
 };
 
-const Tasks = ({ id, name, description }: TaskProp) => {
+const Tasks = ({ id }: TaskProp) => {
   const { tasks, setTasks } = useData();
 
   const task = tasks.find((t) => t.id === id);
