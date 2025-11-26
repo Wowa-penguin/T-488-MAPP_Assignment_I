@@ -1,5 +1,5 @@
 import BoardList from '@/components/boardList';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
 export default function Index() {
   return (
@@ -9,7 +9,10 @@ export default function Index() {
       }}
     >
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Toodler</Text>
+        <Image
+          style={styles.tinyLogo}
+          source={require('@/assets/images/Umbrella_Corporation_logo.svg.png')}
+        />
       </View>
       <BoardList />
     </View>
@@ -18,8 +21,8 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 40,
-    paddingBottom: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
     backgroundColor: '#f9f9f9',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
@@ -30,5 +33,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '900',
     color: '#444',
+  },
+  tinyLogo: {
+    width: 100,
+    height: 100,
   },
 });
