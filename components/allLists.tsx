@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   boardName: {
     fontWeight: 'bold',
     fontSize: 28,
+    textAlign: 'center',
   },
   boardNameView: {
     marginBottom: '8%',
@@ -112,14 +113,14 @@ const styles = StyleSheet.create({
     //Todo: Vantar góða styles
     padding: 5,
     alignSelf: 'center',
-    width: '50%',
+    width: '67%',
     backgroundColor: '#a2bade',
-    borderRadius: 20,
+    borderRadius: 15,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 8,
     marginBottom: 10,
   },
