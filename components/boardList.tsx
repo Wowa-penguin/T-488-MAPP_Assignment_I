@@ -1,16 +1,15 @@
 import Boards from '@/components/boards';
-import { useData } from '@/util/dataState';
+import data from '@/data/data.json';
 import React, { useState } from 'react';
-
 import {
+  Alert,
   Button,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
-  Alert,
-  Modal,
 } from 'react-native';
 
 type BoardType = {
@@ -21,62 +20,74 @@ type BoardType = {
 };
 
 const BoardList = () => {
-  const { boards, setBoards } = useData();
+  const [boards, setBoards] = useState<BoardType[]>(data.boards);
 
-  //const [id, setId] = useState(0);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [thumbnailPhoto, setThumbnailPhoto] = useState('');
+  const [newName, setNewName] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+  const [newThumbnailPhoto, setNewThumbnailPhoto] = useState('');
 
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editThumbnailPhoto, setEditThumbnailPhoto] = useState('');
   const [editModalVisible, setEditModalVisible] = useState(false);
 
-  const handleSubmit = () => {
-    if (!name.trim()) return;
+  const handleAddBoard = () => {
+    if (!newName.trim()) return;
 
-    if (editingId !== null) {
-      setBoards((prev) =>
-        prev.map((board) =>
-          board.id === editingId
-            ? { ...board, name, description, thumbnailPhoto }
-            : board
-        )
-      );
-      setEditingId(null);
-    } else {
-      const nextId = boards.length > 0 ? boards[boards.length - 1].id + 1 : 1;
+    const nextId = boards.length > 0 ? boards[boards.length - 1].id + 1 : 1;
 
-      const newBoard: BoardType = {
-        id: nextId,
-        name,
-        description,
-        thumbnailPhoto,
-      };
+    const newBoard: BoardType = {
+      id: nextId,
+      name: newName,
+      description: newDescription,
+      thumbnailPhoto: newThumbnailPhoto,
+    };
 
-      setBoards((prev) => [...prev, newBoard]);
-    }
+    setBoards(prev => [...prev, newBoard]);
 
-    setName('');
-    setDescription('');
-    setThumbnailPhoto('');
+    setNewName('');
+    setNewDescription('');
+    setNewThumbnailPhoto('');
   };
 
   const handleEditBoard = (board: BoardType) => {
     setEditingId(board.id);
-    setName(board.name);
-    setDescription(board.description);
-    setThumbnailPhoto(board.thumbnailPhoto);
+    setEditName(board.name);
+    setEditDescription(board.description);
+    setEditThumbnailPhoto(board.thumbnailPhoto);
     setEditModalVisible(true);
   };
 
+  const handleSaveEdit = () => {
+    if (editingId === null) return;
+
+    setBoards(prev =>
+      prev.map(board =>
+        board.id === editingId
+          ? {
+              ...board,
+              name: editName,
+              description: editDescription,
+              thumbnailPhoto: editThumbnailPhoto,
+            }
+          : board
+      )
+    );
+
+    setEditModalVisible(false);
+    setEditingId(null);
+  };
+
   const handleDeleteBoard = (boardToDelete: number) => {
-    setBoards((prev) => prev.filter((b) => b.id !== boardToDelete));
+    setBoards(prev => prev.filter(b => b.id !== boardToDelete));
 
     if (editingId === boardToDelete) {
       setEditingId(null);
-      setName('');
-      setDescription('');
-      setThumbnailPhoto('');
+      setEditName('');
+      setEditDescription('');
+      setEditThumbnailPhoto('');
+      setEditModalVisible(false);
     }
   };
 
@@ -85,18 +96,19 @@ const BoardList = () => {
       'Delete board',
       `Are you sure you want to delete "${board.name}"?`,
       [
-        { text: 'Cancel', style: 'cancel'},
+        { text: 'Cancel', style: 'cancel' },
         {
           text: 'Delete',
           style: 'destructive',
           onPress: () => handleDeleteBoard(board.id),
         },
-      ],
+      ]
     );
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+
       <Modal
         visible={editModalVisible}
         animationType="slide"
@@ -105,34 +117,28 @@ const BoardList = () => {
         <View style={styles.modalBackground}>
           <View style={styles.modalContent}>
             <Text style={styles.formTitle}>Edit Board</Text>
-  
+
             <TextInput
               style={styles.input}
               placeholder="Name"
-              value={name}
-              onChangeText={setName}
+              value={editName}
+              onChangeText={setEditName}
             />
             <TextInput
               style={styles.input}
               placeholder="Description"
-              value={description}
-              onChangeText={setDescription}
+              value={editDescription}
+              onChangeText={setEditDescription}
             />
             <TextInput
               style={styles.input}
               placeholder="Image URL"
-              value={thumbnailPhoto}
-              onChangeText={setThumbnailPhoto}
+              value={editThumbnailPhoto}
+              onChangeText={setEditThumbnailPhoto}
             />
-  
-            <Button
-              title="Save changes"
-              onPress={() => {
-                handleSubmit();
-                setEditModalVisible(false);
-              }}
-            />
-  
+
+            <Button title="Save changes" onPress={handleSaveEdit} />
+
             <View style={{ marginTop: 10 }}>
               <Button
                 title="Cancel"
@@ -146,34 +152,34 @@ const BoardList = () => {
           </View>
         </View>
       </Modal>
-  
+
       <View style={styles.form}>
         <Text style={styles.formTitle}>Create new board</Text>
-  
+
         <TextInput
           style={styles.input}
           placeholder="Name"
-          value={name}
-          onChangeText={setName}
+          value={newName}
+          onChangeText={setNewName}
         />
         <TextInput
           style={styles.input}
           placeholder="Description"
-          value={description}
-          onChangeText={setDescription}
+          value={newDescription}
+          onChangeText={setNewDescription}
         />
         <TextInput
           style={styles.input}
           placeholder="Image URL"
-          value={thumbnailPhoto}
-          onChangeText={setThumbnailPhoto}
+          value={newThumbnailPhoto}
+          onChangeText={setNewThumbnailPhoto}
         />
-  
-        <Button title="Add board" onPress={handleSubmit} />
+
+        <Button title="Add board" onPress={handleAddBoard} />
       </View>
 
       <View style={styles.boardGrid}>
-        {boards.map((board) => (
+        {boards.map(board => (
           <Boards
             key={board.id}
             id={board.id}
@@ -185,7 +191,6 @@ const BoardList = () => {
           />
         ))}
       </View>
-  
     </ScrollView>
   );
 };
@@ -195,14 +200,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
-
-  title: {
-    fontSize: 32,
-    fontWeight: '800',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-
   form: {
     marginBottom: 30,
     backgroundColor: '#fff',
@@ -210,13 +207,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     elevation: 2,
   },
-
   formTitle: {
     fontWeight: 'bold',
     marginBottom: 10,
     fontSize: 16,
   },
-
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
@@ -224,21 +219,18 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 10,
   },
-
   boardGrid: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
   },
-
   modalBackground: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
   modalContent: {
     width: '85%',
     backgroundColor: 'white',
@@ -246,7 +238,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     elevation: 10,
   },
-  
 });
 
 export default BoardList;
