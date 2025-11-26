@@ -30,6 +30,8 @@ type DataContextType = {
   setLists: React.Dispatch<React.SetStateAction<ListType[]>>;
   tasks: TaskType[];
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
+
+  deleteList: (listId: number) => void;
 };
 
 const DataContext = createContext<DataContextType | null>(null);
@@ -39,9 +41,22 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [lists, setLists] = useState<ListType[]>(data.lists);
   const [tasks, setTasks] = useState<TaskType[]>(data.tasks);
 
+  const deleteList = (listId: number) => {
+    setLists((prev) => prev.filter((list) => list.id !== listId));
+    setTasks((prev) => prev.filter((task) => task.listId !== listId));
+  };
+
   return (
     <DataContext.Provider
-      value={{ boards, setBoards, lists, setLists, tasks, setTasks }}
+      value={{
+        boards,
+        setBoards,
+        lists,
+        setLists,
+        tasks,
+        setTasks,
+        deleteList,
+      }}
     >
       {children}
     </DataContext.Provider>

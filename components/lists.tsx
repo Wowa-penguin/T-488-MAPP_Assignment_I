@@ -1,3 +1,4 @@
+import { useData } from '@/util/dataState';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -17,6 +18,7 @@ type ListProps = {
 };
 
 const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
+  const { deleteList } = useData();
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
 
@@ -25,7 +27,7 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
     setTaskName('');
     setTaskDescription('');
   };
-  
+
   return (
     <View style={styles.column}>
       <View style={styles.header}>
@@ -62,6 +64,11 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
           />
           <Button title="Add task" onPress={handleAdd} />
         </View>
+        <Button
+          title="Delete List"
+          color="red"
+          onPress={() => deleteList(id)}
+        />
       </View>
     </View>
   );
