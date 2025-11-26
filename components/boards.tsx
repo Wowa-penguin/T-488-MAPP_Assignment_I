@@ -15,11 +15,12 @@ type BoardProps = {
   description: string;
   img: string;
   onDelete: () => void;
+  onEdit: () => void;
 };
 
-const Boards = ({ id, name, description, img, onDelete }: BoardProps) => {
+const Boards = ({ id, name, description, img, onDelete, onEdit }: BoardProps) => {
   return (
-    <ScrollView style={styles.board}>
+    <View style={styles.board}>
       <Image style={styles.image} source={{ uri: img }} />
       <Link
         href={{
@@ -27,13 +28,16 @@ const Boards = ({ id, name, description, img, onDelete }: BoardProps) => {
           params: { bId: id },
         }}
       >
-        <View style={styles.textDiv}>
+        <View>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.description}>{description}</Text>
         </View>
       </Link>
-      <Button title="Delete" onPress={onDelete} />
-    </ScrollView>
+      <View style={styles.buttonRow}>
+        <Button title='Edit' onPress={onEdit} />
+        <Button title="Delete" color='red' onPress={onDelete} />
+      </View>
+    </View>
   );
 };
 
@@ -45,13 +49,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 20,
 
-    // --- iOS
     shadowColor: '#000',
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 6,
-
-    // --- Android
     elevation: 4,
   },
 
@@ -79,6 +80,12 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontSize: 14,
   },
+
+  buttonRow: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
 
 export default Boards;

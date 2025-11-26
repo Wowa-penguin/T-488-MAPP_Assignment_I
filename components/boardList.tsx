@@ -20,39 +20,67 @@ type BoardType = {
 const BoardList = () => {
   const [boards, setBoards] = useState<BoardType[]>(data.boards);
 
-  const [id, setId] = useState(0);
+  //const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [thumbnailPhoto, setThumbnailPhoto] = useState('');
 
-  const handleAddBoard = () => {
-    const lastBoard = boards[boards.length - 1];
-    setId(lastBoard.id + 1);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
+  const handleSubmit = () => {
     if (!name.trim()) return;
 
-    const newBoard: BoardType = {
-      id,
-      name,
-      description,
-      thumbnailPhoto,
-    };
+    if (editingId !== null) {
+      setBoards((prev) =>
+        prev.map((board) =>
+          board.id === editingId
+            ? { ...board, name, description, thumbnailPhoto }
+            : board
+        )
+      );
+      setEditingId(null);
+    } else {
+      const nextId = boards.length > 0 ? boards[boards.length - 1].id + 1 : 1;
 
-    setBoards((prev) => [...prev, newBoard]);
+      const newBoard: BoardType = {
+        id: nextId,
+        name,
+        description,
+        thumbnailPhoto,
+      };
+
+      setBoards((prev) => [...prev, newBoard]);
+    }
 
     setName('');
     setDescription('');
     setThumbnailPhoto('');
   };
 
+  const handleEditBoard = (board: BoardType) => {
+    setEditingId(board.id);
+    setName(board.name);
+    setDescription(board.description);
+    setThumbnailPhoto(board.thumbnailPhoto);
+  };
+
   const handleDeleteBoard = (boardToDelete: number) => {
     setBoards((prev) => prev.filter((b) => b.id !== boardToDelete));
+
+    if (editingId === boardToDelete) {
+      setEditingId(null);
+      setName('');
+      setDescription('');
+      setThumbnailPhoto('');
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.form}>
-        <Text style={styles.formTitle}>Create new board</Text>
+        <Text style={styles.formTitle}>
+          {editingId !== null ? 'Edit board' : 'Create new board'}
+        </Text>
 
         <TextInput
           style={styles.input}
@@ -72,23 +100,39 @@ const BoardList = () => {
           value={thumbnailPhoto}
           onChangeText={setThumbnailPhoto}
         />
-        <Button title="Add board" onPress={handleAddBoard} />
+
+        <Button
+          title={editingId !== null ? 'Save changes' : 'Add board'}
+          onPress={handleSubmit}
+        />
+
+        {editingId !== null && (
+          <View style={{ marginTop: 8 }}>
+            <Button
+              title="Cancle editing"
+              color="#888"
+              onPress={() => {
+                setEditingId(null);
+                setName('');
+                setDescription('');
+                setThumbnailPhoto('');
+              }}
+            />
+          </View>
+        )}
       </View>
+
       <View style={styles.boardGrid}>
         {boards.map((board) => (
-          <View
-            key={
-              (board.id, board.name, board.description, board.thumbnailPhoto)
-            }
-          >
             <Boards
+              key={board.id}
               id={board.id}
               name={board.name}
               description={board.description}
               img={board.thumbnailPhoto}
               onDelete={() => handleDeleteBoard(board.id)}
+              onEdit={() => handleEditBoard(board)}
             />
-          </View>
         ))}
       </View>
     </ScrollView>
