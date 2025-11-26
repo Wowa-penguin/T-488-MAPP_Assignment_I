@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 16,
+    textAlign: 'center',
   },
   listsRow: {
     paddingBottom: 16,
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: '700',
     fontSize: 16,
+    textAlign: 'center',
   },
   columnText: {
     fontWeight: '700',
