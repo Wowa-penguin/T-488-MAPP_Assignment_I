@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   card: {
+    gap: 4,
     padding: 10,
     borderRadius: 8,
     borderWidth: 2.5,

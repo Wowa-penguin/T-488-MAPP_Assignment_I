@@ -1,6 +1,6 @@
 import Tasks from '@/components/tasks';
 import { useData } from '@/util/dataState';
-import { router, useLocalSearchParams } from 'expo-router';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
@@ -116,7 +116,15 @@ const Index = () => {
   return (
     <View style={[styles.container, { backgroundColor: '#d5e9f5' }]}>
       {currTaskList ? (
-        <Text style={styles.listName}>{currTaskList.name}</Text>
+        <Link
+          style={styles.listName}
+          href={{
+            pathname: '/lists',
+            params: { bId: currBoardId },
+          }}
+        >
+          <Text>{currTaskList.name}</Text>
+        </Link>
       ) : (
         <Text style={styles.listName}>No name</Text>
       )}
