@@ -1,9 +1,11 @@
 import { useData } from '@/util/dataState';
-import { Button, StyleSheet, Text, View, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 type TaskProp = {
   id: number;
+  move: (id: number) => void;
 };
 
 type TaskType = {
@@ -14,11 +16,23 @@ type TaskType = {
   listId: number;
 };
 
-const Tasks = ({ id }: TaskProp) => {
+const Tasks = ({ id, move }: TaskProp) => {
   const { tasks, setTasks } = useData();
   const router = useRouter();
 
   const task = tasks.find((t) => t.id === id);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+
+  if (!task) {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.title}>Task not found.</Text>
+      </View>
+    );
+  }
 
   const updateTask = (taskId: number, updatedFields: Partial<TaskType>) => {
     setTasks((prev) =>
@@ -54,26 +68,101 @@ const Tasks = ({ id }: TaskProp) => {
     );
   };
 
+  const handleStartEditing = () => {
+    setEditName(task.name);
+    setEditDescription(task.description);
+    setIsEditing(true);
+  };
+
+  const handleCancelEditing = () => {
+    setIsEditing(false);
+  };
+
+  const handleSaveEditing = () => {
+    const trimmedName = editName.trim();
+    const trimmedDescription = editDescription.trim();
+
+    if (!trimmedName) {
+      Alert.alert('Validation', 'Task name cannot be empty.');
+      return;
+    }
+
+    updateTask(id, {
+      name: trimmedName,
+      description: trimmedDescription,
+    });
+
+    setIsEditing(false);
+  };
+
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{task?.name}</Text>
+      {isEditing ? (
+        <>
+          <Text style={styles.editLabel}>Edit task</Text>
 
-      <Text style={styles.description}>{task?.description}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Task title"
+            value={editName}
+            onChangeText={setEditName}
+          />
 
-      <Text style={styles.status}>
-        {task?.isFinished ? '✅ Done' : '⏳ In progress'}
-      </Text>
+          <TextInput
+            style={[styles.input, styles.inputMultiline]}
+            placeholder="Description"
+            value={editDescription}
+            onChangeText={setEditDescription}
+            multiline
+          />
 
-      <Button
-        title={task?.isFinished ? 'Mark as not done' : 'Mark as done'}
-        onPress={handleToggleFinished}
-      />
+          <View style={styles.buttonWrapper}>
+            <Button title="Save changes" onPress={handleSaveEditing} />
+          </View>
 
-      <Button
-        title="Delete task"
-        color="#b91c1c"
-        onPress={confirmDeleteTask}
-      />
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Cancel"
+              color="#6b7280"
+              onPress={handleCancelEditing}
+            />
+          </View>
+        </>
+      ) : (
+        <>
+          <Text style={styles.title}>{task.name}</Text>
+
+          <Text style={styles.description}>{task.description}</Text>
+
+          <Text style={styles.status}>
+            {task.isFinished ? '✅ Done' : '⏳ In progress'}
+          </Text>
+
+          <View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                title={task.isFinished ? 'Mark as not done' : 'Mark as done'}
+                onPress={handleToggleFinished}
+              />
+            </View>
+
+            <View style={styles.buttonWrapper}>
+              <Button title="Edit task" onPress={handleStartEditing} />
+            </View>
+
+            <View style={styles.buttonWrapper}>
+              <Button
+                title="Delete task"
+                color="#b91c1c"
+                onPress={confirmDeleteTask}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button title="Move" onPress={() => move(id)} />
+            </View>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -108,6 +197,27 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontSize: 12,
     color: '#6b7280',
+  },
+
+  buttonWrapper: {
+    marginTop: 8,
+  },
+  editLabel: {
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
+    fontSize: 14,
+  },
+  inputMultiline: {
+    minHeight: 60,
+    textAlignVertical: 'top',
   },
 });
 

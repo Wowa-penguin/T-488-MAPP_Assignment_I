@@ -30,8 +30,9 @@ type DataContextType = {
   setLists: React.Dispatch<React.SetStateAction<ListType[]>>;
   tasks: TaskType[];
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
-
   deleteList: (listId: number) => void;
+  isMove: boolean;
+  setIsMove: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DataContext = createContext<DataContextType | null>(null);
@@ -40,6 +41,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [boards, setBoards] = useState<BoardType[]>(data.boards);
   const [lists, setLists] = useState<ListType[]>(data.lists);
   const [tasks, setTasks] = useState<TaskType[]>(data.tasks);
+  const [isMove, setIsMove] = useState(false);
 
   const deleteList = (listId: number) => {
     setLists((prev) => prev.filter((list) => list.id !== listId));
@@ -56,6 +58,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         tasks,
         setTasks,
         deleteList,
+        isMove,
+        setIsMove,
       }}
     >
       {children}
