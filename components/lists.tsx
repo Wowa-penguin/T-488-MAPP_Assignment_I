@@ -26,7 +26,7 @@ type ListProps = {
   onAddTask: (name: string, description: string) => void;
 };
 
-export const darkenHex = (hex: string, amount: number = 30): string => {
+const darkenHex = (hex: string, amount: number = 30): string => {
   const cleanHex = hex.replace('#', '');
   const num = parseInt(cleanHex, 16);
 
@@ -45,10 +45,14 @@ export const darkenHex = (hex: string, amount: number = 30): string => {
 
 const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
   const { deleteList } = useData();
+  const { setLists } = useData();
 
+  const [listName, setListName] = useState(name);
+  const [listColor, setListColor] = useState(color);
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editListVar, setEditListVar] = useState(false);
 
   const handleAdd = () => {
     setEditModalVisible(true);
@@ -82,6 +86,18 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
     );
   };
 
+  const handleNameChange = () => {
+    setLists((prev) =>
+      prev.map((list) => (list.id === id ? { ...list, name: listName } : list))
+    );
+    setLists((prev) =>
+      prev.map((list) =>
+        list.id === id ? { ...list, color: listColor } : list
+      )
+    );
+    setEditListVar(false);
+  };
+
   return (
     <ScrollView style={styles.column}>
       <Modal
@@ -112,16 +128,33 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
           </View>
         </View>
       </Modal>
-
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{name.toUpperCase()}</Text>
-      </View>
+      {editListVar ? (
+        <View style={styles.header}>
+          <TextInput
+            style={styles.input}
+            placeholder={listName.toUpperCase()}
+            value={listName.toUpperCase()}
+            onChangeText={setListName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder={listColor}
+            value={listColor}
+            onChangeText={setListColor}
+          />
+          <Button title="Confirm" onPress={handleNameChange} />
+        </View>
+      ) : (
+        <View style={styles.header}>
+          <Text style={styles.headerText}>{listName.toUpperCase()}</Text>
+        </View>
+      )}
 
       <View
         style={[
           styles.card,
           {
-            backgroundColor: color,
+            backgroundColor: listColor,
             borderColor: darkenHex(color, 40),
           },
         ]}
@@ -145,6 +178,9 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
         <View style={styles.listsButtons}>
           <View style={styles.buttons}>
             <Button title="Add task" onPress={handleAdd} />
+          </View>
+          <View style={styles.buttons}>
+            <Button title="Edit" onPress={() => setEditListVar(true)} />
           </View>
           <View style={styles.buttons}>
             <Button
@@ -191,7 +227,7 @@ const styles = StyleSheet.create({
   listsButtons: {
     borderRadius: 8,
     backgroundColor: '#ffffffff',
-    width: '70%',
+    width: 'auto',
     alignSelf: 'center',
     flex: 1,
     marginTop: 10,
