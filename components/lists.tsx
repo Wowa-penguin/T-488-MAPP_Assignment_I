@@ -26,6 +26,23 @@ type ListProps = {
   onAddTask: (name: string, description: string) => void;
 };
 
+export const darkenHex = (hex: string, amount: number = 30): string => {
+  const cleanHex = hex.replace('#', '');
+  const num = parseInt(cleanHex, 16);
+
+  let r = (num >> 16) - amount;
+  let g = ((num >> 8) & 0xff) - amount;
+  let b = (num & 0xff) - amount;
+
+  r = Math.max(0, r);
+  g = Math.max(0, g);
+  b = Math.max(0, b);
+
+  const newColor =
+    '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  return newColor;
+};
+
 const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
   const { deleteList } = useData();
 
@@ -100,7 +117,15 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
         <Text style={styles.headerText}>{name.toUpperCase()}</Text>
       </View>
 
-      <View style={[styles.card, { backgroundColor: color }]}>
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: color,
+            borderColor: darkenHex(color, 40),
+          },
+        ]}
+      >
         {tasks.map((task) => (
           <Link
             href={{
@@ -117,12 +142,25 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
         ))}
 
         <View style={styles.listsButtons}>
+<<<<<<< Updated upstream
           <Button title="Add task" onPress={handleAdd} />
           <Button
             title="Delete List"
             color="red"
             onPress={confirmDeleteList}
           />
+=======
+          <View style={styles.buttons}>
+            <Button title="Add task" onPress={handleAdd} />
+          </View>
+          <View style={styles.buttons}>
+            <Button
+              title="Delete List"
+              color="red"
+              onPress={() => deleteList(id)}
+            />
+          </View>
+>>>>>>> Stashed changes
         </View>
       </View>
     </ScrollView>
@@ -139,16 +177,17 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 22,
     textAlign: 'center',
   },
   columnText: {
-    fontWeight: '700',
-    fontSize: 14,
+    fontWeight: '500',
+    fontSize: 18,
   },
   card: {
     padding: 10,
     borderRadius: 8,
+    borderWidth: 2.5,
   },
   input: {
     borderWidth: 1,
@@ -179,6 +218,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     //Todo: cool styles for add task and delete list
+    padding: 3,
   },
 });
 
