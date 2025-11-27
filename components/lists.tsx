@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   View,
+  Alert,
 } from 'react-native';
 
 type ListProps = {
@@ -47,6 +48,21 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
     setEditModalVisible(false);
     setTaskName('');
     setTaskDescription('');
+  };
+
+  const confirmDeleteList = () => {
+    Alert.alert(
+      'Delete List',
+      `Are you sure you want to delete the list "${name}" and all its tasks?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => deleteList(id),
+        },
+      ]
+    );
   };
 
   return (
@@ -103,7 +119,7 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
           <Button
             title="Delete List"
             color="red"
-            onPress={() => deleteList(id)}
+            onPress={confirmDeleteList}
           />
         </View>
       </View>
