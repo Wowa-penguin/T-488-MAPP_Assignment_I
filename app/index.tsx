@@ -6,6 +6,7 @@ export default function Index() {
     <View
       style={{
         flex: 1,
+        backgroundColor: '#d5e9f5',
       }}
     >
       <View style={styles.header}>
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     color: '#444',
   },
   tinyLogo: {
-    width: 100,
-    height: 100,
+    width: 75,
+    height: 75,
   },
 });

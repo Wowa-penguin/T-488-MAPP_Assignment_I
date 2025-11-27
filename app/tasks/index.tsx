@@ -54,12 +54,12 @@ const Index = () => {
 
   if (isMove) {
     return (
-      <View style={styles.moveMain}>
+      <View style={[styles.moveMain, { backgroundColor: '#d5e9f5' }]}>
         {allListsInCurrBoard.map((list) => (
           <View key={list.id}>
             {task?.listId === list.id ? (
               <View style={[styles.listMain, { backgroundColor: list.color }]}>
-                <Text style={styles.text}>{list.name} : Task in this list</Text>
+                <Text style={styles.text}>{list.name} - Task in this list</Text>
               </View>
             ) : (
               <View
@@ -89,7 +89,7 @@ const Index = () => {
   //? 1) Error handel
   if (!id) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: '#d5e9f5' }]}>
         <Text>No task id provided in the URL.</Text>
       </View>
     );
@@ -97,7 +97,7 @@ const Index = () => {
 
   if (Number.isNaN(idToNumber)) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: '#d5e9f5' }]}>
         <Text>Invalid task id: {id}</Text>
       </View>
     );
@@ -105,14 +105,14 @@ const Index = () => {
 
   if (!task) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: '#d5e9f5' }]}>
         <Text>Task not found for id {idToNumber}</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: '#d5e9f5' }]}>
       <Tasks id={task.id} move={handleMove} />
     </View>
   );
@@ -133,8 +133,9 @@ const styles = StyleSheet.create({
   },
   moveMain: {
     flex: 1,
-    marginTop: 20,
-    alignSelf: 'center',
+    width: '100%',
+    paddingTop: 20,
+    alignItems: 'center',
     alignContent: 'center',
     gap: 10,
   },

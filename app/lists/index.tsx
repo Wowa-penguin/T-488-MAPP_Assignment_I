@@ -7,7 +7,11 @@ const Index = () => {
   const boardId = Number(bId);
 
   return (
-    <View>
+    <View
+      style={{
+        backgroundColor: '#d5e9f5',
+      }}
+    >
       <AllList boardId={boardId} />
     </View>
   );
