@@ -1,7 +1,15 @@
 import { useData } from '@/util/dataState';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 type ListProps = {
   name: string;
@@ -19,22 +27,63 @@ type ListProps = {
 
 const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
   const { deleteList } = useData();
+
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
   const handleAdd = () => {
+    setEditModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setEditModalVisible(false);
+    setTaskName('');
+    setTaskDescription('');
+  };
+
+  const handleConfirm = () => {
     onAddTask(taskName, taskDescription);
+    setEditModalVisible(false);
     setTaskName('');
     setTaskDescription('');
   };
 
   return (
-    <View style={styles.column}>
+    <ScrollView style={styles.column}>
+      <Modal
+        visible={editModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            <TextInput
+              style={styles.input}
+              placeholder="New task name"
+              value={taskName}
+              onChangeText={setTaskName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Description (optional)"
+              value={taskDescription}
+              onChangeText={setTaskDescription}
+            />
+            <View style={styles.buttons}>
+              <Button title="Confirm" onPress={handleConfirm} />
+            </View>
+            <View style={styles.buttons}>
+              <Button title="Cancel" onPress={handleCancel} />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.header}>
-        <Text style={styles.headerText}>
-          {name.toUpperCase()} - {id}
-        </Text>
+        <Text style={styles.headerText}>{name.toUpperCase()}</Text>
       </View>
+
       <View style={[styles.card, { backgroundColor: color }]}>
         {tasks.map((task) => (
           <Link
@@ -49,50 +98,23 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
           </Link>
         ))}
 
-        <View style={styles.addTaskContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="New task name"
-            value={taskName}
-            onChangeText={setTaskName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Description (optional)"
-            value={taskDescription}
-            onChangeText={setTaskDescription}
-          />
+        <View style={styles.listsButtons}>
           <Button title="Add task" onPress={handleAdd} />
+          <Button
+            title="Delete List"
+            color="red"
+            onPress={() => deleteList(id)}
+          />
         </View>
-        <Button
-          title="Delete List"
-          color="red"
-          onPress={() => deleteList(id)}
-        />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 40,
-    paddingHorizontal: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  listsRow: {
-    paddingBottom: 16,
-  },
   column: {
-    backgroundColor: 'ff',
-    padding: 12,
-    marginRight: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
   },
   header: {
     marginBottom: 12,
@@ -110,19 +132,35 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
-  addTaskContainer: {
-    marginTop: 10,
-    backgroundColor: '#ffffffaa',
-    padding: 8,
-    borderRadius: 8,
-  },
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 6,
-    padding: 6,
-    marginBottom: 6,
-    fontSize: 13,
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 10,
+  },
+  listsButtons: {
+    flex: 1,
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '85%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 12,
+    elevation: 10,
+  },
+  buttons: {
+    //Todo: cool styles for add task and delete list
   },
 });
 

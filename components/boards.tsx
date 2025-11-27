@@ -1,11 +1,4 @@
-import {
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
 
 import { Link } from 'expo-router';
 
@@ -18,7 +11,14 @@ type BoardProps = {
   onEdit: () => void;
 };
 
-const Boards = ({ id, name, description, img, onDelete, onEdit }: BoardProps) => {
+const Boards = ({
+  id,
+  name,
+  description,
+  img,
+  onDelete,
+  onEdit,
+}: BoardProps) => {
   return (
     <View style={styles.board}>
       <Image style={styles.image} source={{ uri: img }} />
@@ -34,8 +34,8 @@ const Boards = ({ id, name, description, img, onDelete, onEdit }: BoardProps) =>
         </View>
       </Link>
       <View style={styles.buttonRow}>
-        <Button title='Edit' onPress={onEdit} />
-        <Button title="Delete" color='red' onPress={onDelete} />
+        <Button title="Edit" onPress={onEdit} />
+        <Button title="Delete" color="red" onPress={onDelete} />
       </View>
     </View>
   );
