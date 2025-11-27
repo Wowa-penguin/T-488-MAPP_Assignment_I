@@ -1,14 +1,15 @@
 import Tasks from '@/components/tasks';
 import { useData } from '@/util/dataState';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
 const Index = () => {
   const { id } = useLocalSearchParams<{ id?: string }>();
 
   const { tasks, setTasks } = useData();
-  const { lists, setLists } = useData();
+  const { lists } = useData();
+  const { currListsInBoard } = useData();
   const { isMove, setIsMove } = useData();
 
   const idToNumber = Number(id);
@@ -16,14 +17,21 @@ const Index = () => {
   const task = tasks.find((t) => t.id === idToNumber);
   const currTaskList = lists.find((list) => list.id === task?.listId);
   const currBoardId = currTaskList?.boardId;
-  const [currList, setCurrList] = useState(currTaskList);
 
-  const allListsInCurrBoard = lists.filter(
+  const allListsInCurrBoard = currListsInBoard.filter(
     (list) => list.boardId === currBoardId
   );
 
   const handleMove = (id: number) => {
     setIsMove(true);
+    router.navigate({
+      pathname: '/tasks',
+      params: { id: id },
+    });
+  };
+
+  const handleCancelMove = () => {
+    setIsMove(false);
     router.navigate({
       pathname: '/tasks',
       params: { id: id },
@@ -69,6 +77,7 @@ const Index = () => {
             )}
           </View>
         ))}
+        <Button title="Cancel" onPress={handleCancelMove} />
       </View>
     );
   }
@@ -134,8 +143,6 @@ const styles = StyleSheet.create({
   },
   moveTo: {
     // todo: fix button and text
-    flex: 1,
-    flexDirection: 'row',
   },
 });
 
