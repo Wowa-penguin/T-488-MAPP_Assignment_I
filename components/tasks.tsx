@@ -115,17 +115,18 @@ const Tasks = ({ id, move }: TaskProp) => {
             onChangeText={setEditDescription}
             multiline
           />
+          <View style={styles.buttons}>
+            <View style={styles.editButtonWrapper}>
+              <Button title="Save changes" onPress={handleSaveEditing} />
+            </View>
 
-          <View style={styles.buttonWrapper}>
-            <Button title="Save changes" onPress={handleSaveEditing} />
-          </View>
-
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="Cancel"
-              color="#6b7280"
-              onPress={handleCancelEditing}
-            />
+            <View style={styles.editButtonWrapper}>
+              <Button
+                title="Cancel"
+                color="#cb0202ff"
+                onPress={handleCancelEditing}
+              />
+            </View>
           </View>
         </>
       ) : (
@@ -138,7 +139,7 @@ const Tasks = ({ id, move }: TaskProp) => {
             {task.isFinished ? '✅ Done' : '⏳ In progress'}
           </Text>
 
-          <View>
+          <View style={styles.buttons}>
             <View style={styles.buttonWrapper}>
               <Button
                 title={task.isFinished ? 'Mark as not done' : 'Mark as done'}
@@ -198,9 +199,22 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6b7280',
   },
-
+  buttons: {
+    marginTop: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    gap: 10,
+  },
   buttonWrapper: {
-    marginTop: 8,
+    width: '48%',
+    backgroundColor: '#76da1eff',
+    borderRadius: 25,
+  },
+  editButtonWrapper: {
+    width: '45%',
+    backgroundColor: '#76da1eff',
+    borderRadius: 25,
   },
   editLabel: {
     fontSize: 14,
