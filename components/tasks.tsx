@@ -1,5 +1,6 @@
 import { useData } from '@/util/dataState';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 
 type TaskProp = {
   id: number;
@@ -15,6 +16,7 @@ type TaskType = {
 
 const Tasks = ({ id }: TaskProp) => {
   const { tasks, setTasks } = useData();
+  const router = useRouter();
 
   const task = tasks.find((t) => t.id === id);
 
@@ -30,6 +32,28 @@ const Tasks = ({ id }: TaskProp) => {
     updateTask(id, { isFinished: !task?.isFinished });
   };
 
+  const handleDeleteTask = (taskId: number) => {
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    router.back();
+  };
+
+  const confirmDeleteTask = () => {
+    if (!task) return;
+
+    Alert.alert(
+      'Delete task',
+      `Are you sure you want to delete "${task.name}"?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => handleDeleteTask(task.id),
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{task?.name}</Text>
@@ -43,6 +67,12 @@ const Tasks = ({ id }: TaskProp) => {
       <Button
         title={task?.isFinished ? 'Mark as not done' : 'Mark as done'}
         onPress={handleToggleFinished}
+      />
+
+      <Button
+        title="Delete task"
+        color="#b91c1c"
+        onPress={confirmDeleteTask}
       />
     </View>
   );
