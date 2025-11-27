@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
 import { useData } from '@/util/dataState';
-import { Button, StyleSheet, Text, View, Alert, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 type TaskProp = {
   id: number;
+  move: (id: number) => void;
 };
 
 type TaskType = {
@@ -15,7 +16,7 @@ type TaskType = {
   listId: number;
 };
 
-const Tasks = ({ id }: TaskProp) => {
+const Tasks = ({ id, move }: TaskProp) => {
   const { tasks, setTasks } = useData();
   const router = useRouter();
 
@@ -95,70 +96,75 @@ const Tasks = ({ id }: TaskProp) => {
   };
 
   return (
-  <View style={styles.card}>
-    {isEditing ? (
-      <>
-        <Text style={styles.editLabel}>Edit task</Text>
+    <View style={styles.card}>
+      {isEditing ? (
+        <>
+          <Text style={styles.editLabel}>Edit task</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Task title"
-          value={editName}
-          onChangeText={setEditName}
-        />
-
-        <TextInput
-          style={[styles.input, styles.inputMultiline]}
-          placeholder="Description"
-          value={editDescription}
-          onChangeText={setEditDescription}
-          multiline
-        />
-
-        <View style={styles.buttonWrapper}>
-          <Button title="Save changes" onPress={handleSaveEditing} />
-        </View>
-
-        <View style={styles.buttonWrapper}>
-          <Button
-            title="Cancel"
-            color="#6b7280"
-            onPress={handleCancelEditing}
+          <TextInput
+            style={styles.input}
+            placeholder="Task title"
+            value={editName}
+            onChangeText={setEditName}
           />
-        </View>
-      </>
-    ) : (
-      <>
-        <Text style={styles.title}>{task.name}</Text>
 
-        <Text style={styles.description}>{task.description}</Text>
-
-        <Text style={styles.status}>
-          {task.isFinished ? '✅ Done' : '⏳ In progress'}
-        </Text>
-
-        <View style={styles.buttonWrapper}>
-          <Button
-            title={task.isFinished ? 'Mark as not done' : 'Mark as done'}
-            onPress={handleToggleFinished}
+          <TextInput
+            style={[styles.input, styles.inputMultiline]}
+            placeholder="Description"
+            value={editDescription}
+            onChangeText={setEditDescription}
+            multiline
           />
-        </View>
 
-        <View style={styles.buttonWrapper}>
-          <Button title="Edit task" onPress={handleStartEditing} />
-        </View>
+          <View style={styles.buttonWrapper}>
+            <Button title="Save changes" onPress={handleSaveEditing} />
+          </View>
 
-        <View style={styles.buttonWrapper}>
-          <Button
-            title="Delete task"
-            color="#b91c1c"
-            onPress={confirmDeleteTask}
-          />
-        </View>
-      </>
-    )}
-  </View>
-);
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Cancel"
+              color="#6b7280"
+              onPress={handleCancelEditing}
+            />
+          </View>
+        </>
+      ) : (
+        <>
+          <Text style={styles.title}>{task.name}</Text>
+
+          <Text style={styles.description}>{task.description}</Text>
+
+          <Text style={styles.status}>
+            {task.isFinished ? '✅ Done' : '⏳ In progress'}
+          </Text>
+
+          <View>
+            <View style={styles.buttonWrapper}>
+              <Button
+                title={task.isFinished ? 'Mark as not done' : 'Mark as done'}
+                onPress={handleToggleFinished}
+              />
+            </View>
+
+            <View style={styles.buttonWrapper}>
+              <Button title="Edit task" onPress={handleStartEditing} />
+            </View>
+
+            <View style={styles.buttonWrapper}>
+              <Button
+                title="Delete task"
+                color="#b91c1c"
+                onPress={confirmDeleteTask}
+              />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <Button title="Move" onPress={() => move(id)} />
+            </View>
+          </View>
+        </>
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -193,7 +199,7 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
 
-    buttonWrapper: {
+  buttonWrapper: {
     marginTop: 8,
   },
   editLabel: {
@@ -214,7 +220,5 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
 });
-
-
 
 export default Tasks;

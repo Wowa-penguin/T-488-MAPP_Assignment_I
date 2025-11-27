@@ -1,14 +1,88 @@
 import Tasks from '@/components/tasks';
 import { useData } from '@/util/dataState';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 const Index = () => {
   const { id } = useLocalSearchParams<{ id?: string }>();
-  const { tasks } = useData();
 
-  // 1) No id passed in the URL
+  const { tasks, setTasks } = useData();
+  const { lists } = useData();
+  const { currListsInBoard } = useData();
+  const { isMove, setIsMove } = useData();
+
+  const idToNumber = Number(id);
+
+  const task = tasks.find((t) => t.id === idToNumber);
+  const currTaskList = lists.find((list) => list.id === task?.listId);
+  const currBoardId = currTaskList?.boardId;
+
+  const allListsInCurrBoard = currListsInBoard.filter(
+    (list) => list.boardId === currBoardId
+  );
+
+  const handleMove = (id: number) => {
+    setIsMove(true);
+    router.navigate({
+      pathname: '/tasks',
+      params: { id: id },
+    });
+  };
+
+  const handleCancelMove = () => {
+    setIsMove(false);
+    router.navigate({
+      pathname: '/tasks',
+      params: { id: id },
+    });
+  };
+
+  const confirmMove = (newListId: number) => {
+    setIsMove(false);
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === idToNumber ? { ...task, listId: newListId } : task
+      )
+    );
+
+    router.navigate({
+      pathname: '/lists',
+      params: { bId: currBoardId },
+    });
+  };
+
+  if (isMove) {
+    return (
+      <View style={styles.moveMain}>
+        {allListsInCurrBoard.map((list) => (
+          <View key={list.id}>
+            {task?.listId === list.id ? (
+              <>
+                <Text>Curr List: {list.name}</Text>
+              </>
+            ) : (
+              <>
+                <View style={styles.moveTo}>
+                  <Text>
+                    {list.id} - {list.name}
+                  </Text>
+                  <Button
+                    title="Move to"
+                    onPress={() => confirmMove(list.id)}
+                  />
+                </View>
+              </>
+            )}
+          </View>
+        ))}
+        <Button title="Cancel" onPress={handleCancelMove} />
+      </View>
+    );
+  }
+
+  //? 1) Error handel
   if (!id) {
     return (
       <View style={styles.center}>
@@ -17,10 +91,7 @@ const Index = () => {
     );
   }
 
-  const numericId = Number(id);
-
-  // 2) id is not a valid number
-  if (Number.isNaN(numericId)) {
+  if (Number.isNaN(idToNumber)) {
     return (
       <View style={styles.center}>
         <Text>Invalid task id: {id}</Text>
@@ -28,22 +99,17 @@ const Index = () => {
     );
   }
 
-  // 3) Find the task in the shared tasks state (NOT in data.json)
-  const task = tasks.find((t) => t.id === numericId);
-
-  // 4) No task found → show friendly message instead of crashing
   if (!task) {
     return (
       <View style={styles.center}>
-        <Text>Task not found for id {numericId}</Text>
+        <Text>Task not found for id {idToNumber}</Text>
       </View>
     );
   }
 
-  // 5) Valid task → render the Tasks component using its id
   return (
     <View style={styles.container}>
-      <Tasks id={task.id} />
+      <Tasks id={task.id} move={handleMove} />
     </View>
   );
 };
@@ -60,6 +126,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
+  },
+  moveMain: {
+    flex: 1,
+    marginTop: 20,
+    alignSelf: 'center',
+    gap: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
+    fontSize: 14,
+  },
+  moveTo: {
+    // todo: fix button and text
   },
 });
 
