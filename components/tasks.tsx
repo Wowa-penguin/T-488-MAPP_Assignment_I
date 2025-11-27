@@ -143,23 +143,28 @@ const Tasks = ({ id, move }: TaskProp) => {
             <View style={styles.buttonWrapper}>
               <Button
                 title={task.isFinished ? 'Mark as not done' : 'Mark as done'}
+                color={'#fff'}
                 onPress={handleToggleFinished}
               />
             </View>
 
             <View style={styles.buttonWrapper}>
-              <Button title="Edit task" onPress={handleStartEditing} />
+              <Button
+                title="Edit task"
+                color={'#fff'}
+                onPress={handleStartEditing}
+              />
             </View>
 
             <View style={styles.buttonWrapper}>
               <Button
                 title="Delete task"
-                color="#b91c1c"
+                color="#bf2727ff"
                 onPress={confirmDeleteTask}
               />
             </View>
             <View style={styles.buttonWrapper}>
-              <Button title="Move" onPress={() => move(id)} />
+              <Button title="Move" color={'#fff'} onPress={() => move(id)} />
             </View>
           </View>
         </>
@@ -184,19 +189,19 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: {
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: '700',
     color: '#111827',
     marginBottom: 4,
   },
   description: {
-    fontSize: 13,
+    fontSize: 16,
     color: '#4b5563',
   },
 
   status: {
     marginTop: 6,
-    fontSize: 12,
+    fontSize: 16,
     color: '#6b7280',
   },
   buttons: {
@@ -208,7 +213,7 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     width: '48%',
-    backgroundColor: '#76da1eff',
+    backgroundColor: '#da73f3ff',
     borderRadius: 25,
   },
   editButtonWrapper: {

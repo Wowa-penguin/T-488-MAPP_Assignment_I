@@ -142,7 +142,9 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             value={listColor}
             onChangeText={setListColor}
           />
-          <Button title="Confirm" onPress={handleNameChange} />
+          <View style={styles.confirmButton}>
+            <Button title="Confirm" onPress={handleNameChange} />
+          </View>
         </View>
       ) : (
         <View style={styles.header}>
@@ -155,7 +157,7 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
           styles.card,
           {
             backgroundColor: listColor,
-            borderColor: darkenHex(color, 40),
+            borderColor: darkenHex(listColor, 40),
           },
         ]}
       >
@@ -234,6 +236,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     gap: 10,
+  },
+  confirmButton: {
+    backgroundColor: '#ffffff',
+    width: '25%',
+    alignSelf: 'center',
+    borderRadius: 25,
   },
   modalBackground: {
     flex: 1,

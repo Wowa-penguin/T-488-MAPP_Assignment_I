@@ -1,6 +1,7 @@
 import Lists from '@/components/lists';
 import data from '@/data/data.json';
 import { useData } from '@/util/dataState';
+import { Link } from 'expo-router';
 import React, { useState } from 'react';
 
 import {
@@ -151,7 +152,9 @@ const AllLists = ({ boardId }: ListProp) => {
       </Modal>
 
       <View style={styles.boardNameView}>
-        <Text style={styles.boardName}>{boardName}</Text>
+        <Link href={'/'}>
+          <Text style={styles.boardName}>{boardName}</Text>
+        </Link>
       </View>
 
       {renderLists.map((list) => (

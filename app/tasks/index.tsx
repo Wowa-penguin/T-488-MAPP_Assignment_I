@@ -81,7 +81,9 @@ const Index = () => {
             )}
           </View>
         ))}
-        <Button title="Cancel" onPress={handleCancelMove} />
+        <View style={styles.button}>
+          <Button title="Cancel" onPress={handleCancelMove} color={'#fff'} />
+        </View>
       </View>
     );
   }
@@ -113,6 +115,11 @@ const Index = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: '#d5e9f5' }]}>
+      {currTaskList ? (
+        <Text style={styles.listName}>{currTaskList.name}</Text>
+      ) : (
+        <Text style={styles.listName}>No name</Text>
+      )}
       <Tasks id={task.id} move={handleMove} />
     </View>
   );
@@ -158,12 +165,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#186a77ff',
+    backgroundColor: '#22a39bff',
     borderRadius: 25,
     marginLeft: 2,
   },
   text: {
     fontSize: 18,
+  },
+  listName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 15,
   },
 });
 
