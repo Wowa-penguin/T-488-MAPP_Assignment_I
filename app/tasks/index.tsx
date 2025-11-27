@@ -9,7 +9,6 @@ const Index = () => {
 
   const { tasks, setTasks } = useData();
   const { lists } = useData();
-  const { currListsInBoard } = useData();
   const { isMove, setIsMove } = useData();
 
   const idToNumber = Number(id);
@@ -18,7 +17,7 @@ const Index = () => {
   const currTaskList = lists.find((list) => list.id === task?.listId);
   const currBoardId = currTaskList?.boardId;
 
-  const allListsInCurrBoard = currListsInBoard.filter(
+  const allListsInCurrBoard = lists.filter(
     (list) => list.boardId === currBoardId
   );
 
@@ -59,21 +58,26 @@ const Index = () => {
         {allListsInCurrBoard.map((list) => (
           <View key={list.id}>
             {task?.listId === list.id ? (
-              <>
-                <Text>Curr List: {list.name}</Text>
-              </>
+              <View style={[styles.listMain, { backgroundColor: list.color }]}>
+                <Text style={styles.text}>{list.name} : Task in this list</Text>
+              </View>
             ) : (
-              <>
-                <View style={styles.moveTo}>
-                  <Text>
-                    {list.id} - {list.name}
-                  </Text>
+              <View
+                style={[
+                  styles.moveTo,
+                  styles.listMain,
+                  { backgroundColor: list.color },
+                ]}
+              >
+                <Text style={styles.text}>{list.name}</Text>
+                <View style={styles.button}>
                   <Button
                     title="Move to"
+                    color={'#fff'}
                     onPress={() => confirmMove(list.id)}
                   />
                 </View>
-              </>
+              </View>
             )}
           </View>
         ))}
@@ -131,6 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     alignSelf: 'center',
+    alignContent: 'center',
     gap: 10,
   },
   input: {
@@ -141,8 +146,23 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontSize: 14,
   },
+  listMain: {
+    padding: 10,
+    width: 300,
+    borderRadius: 25,
+  },
   moveTo: {
-    // todo: fix button and text
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#186a77ff',
+    borderRadius: 25,
+    marginLeft: 2,
+  },
+  text: {
+    fontSize: 18,
   },
 });
 
