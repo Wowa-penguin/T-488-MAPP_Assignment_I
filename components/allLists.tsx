@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -31,6 +32,15 @@ type TaskType = {
   isFinished: boolean;
   listId: number;
 };
+const COLORS = [
+  '#ff6b6b',
+  '#4dabf7',
+  '#51cf66',
+  '#ffa94d',
+  '#845ef7',
+  '#f783ac',
+  '#20c997',
+];
 
 const AllLists = ({ boardId }: ListProp) => {
   const { lists, setLists, tasks, setTasks } = useData();
@@ -103,12 +113,23 @@ const AllLists = ({ boardId }: ListProp) => {
               value={name}
               onChangeText={setName}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Color"
-              value={color}
-              onChangeText={setColor}
-            />
+            <Text style={{ marginBottom: 6 }}>Choose a color:</Text>
+            <View style={styles.addColor}>
+              {COLORS.map((c) => (
+                <TouchableOpacity
+                  key={c}
+                  onPress={() => setColor(c)}
+                  style={[
+                    styles.colorCircle,
+                    {
+                      backgroundColor: c,
+                      borderWidth: color === c ? 3 : 1,
+                      borderColor: color === c ? '#000' : '#777',
+                    },
+                  ]}
+                />
+              ))}
+            </View>
             <View style={styles.flexButton}>
               <View style={styles.button}>
                 <Button
@@ -177,6 +198,17 @@ const styles = StyleSheet.create({
     width: '67%',
     backgroundColor: '#a2bade',
     borderRadius: 15,
+  },
+  addColor: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 10,
+  },
+  colorCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 8, // square instead of circle
   },
   flexButton: {
     flexDirection: 'row',
