@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import {
   Button,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -36,6 +37,7 @@ const AllLists = ({ boardId }: ListProp) => {
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
   const boards = data.boards;
 
@@ -61,6 +63,7 @@ const AllLists = ({ boardId }: ListProp) => {
 
     setLists((prev) => [...prev, newList]);
 
+    setEditModalVisible(false);
     setName('');
     setColor('');
   };
@@ -87,9 +90,49 @@ const AllLists = ({ boardId }: ListProp) => {
 
   return (
     <ScrollView style={styles.mainContainer}>
+      <Modal
+        visible={editModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={name}
+              onChangeText={setName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Color"
+              value={color}
+              onChangeText={setColor}
+            />
+            <View style={styles.flexButton}>
+              <View style={styles.button}>
+                <Button
+                  title="Add new list"
+                  color={'#d6cbcbff'}
+                  onPress={handleAddList}
+                />
+              </View>
+              <View style={styles.button}>
+                <Button
+                  title="Cancel"
+                  color={'#d6cbcbff'}
+                  onPress={() => setEditModalVisible(false)}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.boardNameView}>
         <Text style={styles.boardName}>{boardName}</Text>
       </View>
+
       {renderLists.map((list) => (
         <View key={list.id}>
           <Lists
@@ -103,23 +146,12 @@ const AllLists = ({ boardId }: ListProp) => {
           />
         </View>
       ))}
+
       <View style={styles.button}>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={setName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Color"
-          value={color}
-          onChangeText={setColor}
-        />
         <Button
           title="Add new list"
-          color={'#21252b'}
-          onPress={handleAddList}
+          color={'#d6cbcbff'}
+          onPress={() => setEditModalVisible(true)}
         />
       </View>
     </ScrollView>
@@ -139,13 +171,22 @@ const styles = StyleSheet.create({
     marginBottom: '8%',
     marginTop: '8%',
   },
-  button: {
-    //Todo: Vantar góða styles
-    padding: 5,
+  addNewList: {
+    padding: 10,
     alignSelf: 'center',
     width: '67%',
     backgroundColor: '#a2bade',
     borderRadius: 15,
+  },
+  flexButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  button: {
+    alignSelf: 'center',
+    backgroundColor: '#0b3f8cff',
+    width: '40%',
+    borderRadius: 20,
   },
   input: {
     borderWidth: 1,
@@ -153,6 +194,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 8,
     marginBottom: 10,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '85%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 12,
+    elevation: 10,
   },
 });
 
