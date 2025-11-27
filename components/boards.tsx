@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'skyblue',
     borderRadius: 16,
     marginBottom: 20,
+    alignItems: 'center',
 
     shadowColor: '#000',
     shadowOpacity: 0.15,
@@ -56,35 +57,32 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
 
-  textDiv: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-
   image: {
     width: '100%',
+    alignSelf: 'center',
     aspectRatio: 4 / 3,
     borderRadius: 12,
-    marginBottom: 10,
   },
 
   name: {
-    marginTop: 10,
+    marginTop: 12,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 22,
   },
   description: {
     marginTop: 8,
     textAlign: 'center',
     fontStyle: 'italic',
-    fontSize: 14,
+    fontSize: 18,
+    paddingHorizontal: 4,
   },
 
   buttonRow: {
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '70%',
   }
 });
 
