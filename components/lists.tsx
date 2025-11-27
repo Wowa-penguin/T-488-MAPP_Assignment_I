@@ -2,6 +2,7 @@ import { useData } from '@/util/dataState';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import {
+  Alert,
   Button,
   Modal,
   ScrollView,
@@ -9,7 +10,6 @@ import {
   Text,
   TextInput,
   View,
-  Alert,
 } from 'react-native';
 
 type ListProps = {
@@ -137,19 +137,12 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
           >
             <Text style={styles.columnText}>
               {task.isFinished ? '✅ ' : '⏳ '}
-              {task.name}</Text>
+              {task.name}
+            </Text>
           </Link>
         ))}
 
         <View style={styles.listsButtons}>
-<<<<<<< Updated upstream
-          <Button title="Add task" onPress={handleAdd} />
-          <Button
-            title="Delete List"
-            color="red"
-            onPress={confirmDeleteList}
-          />
-=======
           <View style={styles.buttons}>
             <Button title="Add task" onPress={handleAdd} />
           </View>
@@ -157,10 +150,9 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             <Button
               title="Delete List"
               color="red"
-              onPress={() => deleteList(id)}
+              onPress={confirmDeleteList}
             />
           </View>
->>>>>>> Stashed changes
         </View>
       </View>
     </ScrollView>
