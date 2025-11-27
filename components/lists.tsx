@@ -189,7 +189,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listsButtons: {
-    backgroundColor: '#ffff',
+    borderRadius: 8,
+    backgroundColor: '#ffffffff',
+    width: '70%',
+    alignSelf: 'center',
     flex: 1,
     marginTop: 10,
     flexDirection: 'row',
