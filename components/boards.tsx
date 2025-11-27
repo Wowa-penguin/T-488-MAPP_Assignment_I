@@ -28,23 +28,23 @@ const Boards = ({
         }}
         asChild
       >
-      <Pressable
-        style={({ pressed }) => [
-          styles.cardContent,
-          pressed && styles.pressed,
-        ]}
-      >
+        <Pressable
+          style={({ pressed }) => [
+            styles.cardContent,
+            pressed && styles.pressed,
+          ]}
+        >
           <Image style={styles.image} source={{ uri: img }} />
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.description}>{description}</Text>
-      </Pressable>
+        </Pressable>
       </Link>
-  
+
       <View style={styles.buttonRow}>
         <Button title="Edit" onPress={onEdit} />
         <Button title="Delete" color="red" onPress={onDelete} />
       </View>
-    </View>  
+    </View>
   );
 };
 
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
   },
 
   pressed: {
-    transform: [{scale: 0.97}],
+    transform: [{ scale: 0.97 }],
     opacity: 0.9,
   },
 
   cardContent: {
     width: '100%',
     alignItems: 'center',
-  }
+  },
 });
 
 export default Boards;
