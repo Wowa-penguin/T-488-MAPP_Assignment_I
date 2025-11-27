@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
 import Tasks from '@/components/tasks';
 import { useData } from '@/util/dataState';
+import { useLocalSearchParams } from 'expo-router';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 const Index = () => {
   const { id } = useLocalSearchParams<{ id?: string }>();

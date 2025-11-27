@@ -44,7 +44,7 @@ const BoardList = () => {
       thumbnailPhoto: newThumbnailPhoto,
     };
 
-    setBoards(prev => [...prev, newBoard]);
+    setBoards((prev) => [...prev, newBoard]);
 
     setNewName('');
     setNewDescription('');
@@ -62,8 +62,8 @@ const BoardList = () => {
   const handleSaveEdit = () => {
     if (editingId === null) return;
 
-    setBoards(prev =>
-      prev.map(board =>
+    setBoards((prev) =>
+      prev.map((board) =>
         board.id === editingId
           ? {
               ...board,
@@ -80,7 +80,7 @@ const BoardList = () => {
   };
 
   const handleDeleteBoard = (boardToDelete: number) => {
-    setBoards(prev => prev.filter(b => b.id !== boardToDelete));
+    setBoards((prev) => prev.filter((b) => b.id !== boardToDelete));
 
     if (editingId === boardToDelete) {
       setEditingId(null);
@@ -108,7 +108,6 @@ const BoardList = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
       <Modal
         visible={editModalVisible}
         animationType="slide"
@@ -179,7 +178,7 @@ const BoardList = () => {
       </View>
 
       <View style={styles.boardGrid}>
-        {boards.map(board => (
+        {boards.map((board) => (
           <Boards
             key={board.id}
             id={board.id}
