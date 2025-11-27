@@ -110,7 +110,9 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             push
             key={task.id}
           >
-            <Text style={styles.columnText}>{task.name}</Text>
+            <Text style={styles.columnText}>
+              {task.isFinished ? '✅ ' : '⏳ '}
+              {task.name}</Text>
           </Link>
         ))}
 
