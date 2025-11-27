@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, View, Pressable } from 'react-native';
 
 import { Link } from 'expo-router';
 
@@ -21,23 +21,30 @@ const Boards = ({
 }: BoardProps) => {
   return (
     <View style={styles.board}>
-      <Image style={styles.image} source={{ uri: img }} />
       <Link
         href={{
           pathname: '/lists',
           params: { bId: id },
         }}
+        asChild
       >
-        <View>
+      <Pressable
+        style={({ pressed }) => [
+          styles.cardContent,
+          pressed && styles.pressed,
+        ]}
+      >
+          <Image style={styles.image} source={{ uri: img }} />
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.description}>{description}</Text>
-        </View>
+      </Pressable>
       </Link>
+  
       <View style={styles.buttonRow}>
         <Button title="Edit" onPress={onEdit} />
         <Button title="Delete" color="red" onPress={onDelete} />
       </View>
-    </View>
+    </View>  
   );
 };
 
@@ -83,6 +90,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '70%',
+  },
+
+  pressed: {
+    transform: [{scale: 0.97}],
+    opacity: 0.9,
+  },
+
+  cardContent: {
+    width: '100%',
+    alignItems: 'center',
   }
 });
 
