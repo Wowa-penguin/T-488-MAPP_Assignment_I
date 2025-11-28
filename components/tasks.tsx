@@ -48,19 +48,10 @@ const Tasks = ({
   const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editName, setEditName] = useState('');
+  const [editName, setEditName] = useState(name);
   const [editPriority, setEditPriority] = useState(priority);
-  const [editDescription, setEditDescription] = useState('');
-
-  const updateTask = (taskId: number, updatedFields: Partial<TaskType>) => {
-    setTasks((prev) =>
-      prev.map((task) => (id === taskId ? { ...task, ...updatedFields } : task))
-    );
-  };
-
-  const handleToggleFinished = () => {
-    updateTask(id, { isFinished: !isFinished });
-  };
+  const [editDescription, setEditDescription] = useState(description);
+  const [editIsFinished, setEditIsFinished] = useState(isFinished);
 
   const handleDeleteTask = (taskId: number) => {
     setTasks((prev) => prev.filter((t) => t.id !== taskId));
@@ -78,33 +69,33 @@ const Tasks = ({
     ]);
   };
 
-  const handleStartEditing = () => {
-    setEditName(name);
-    setEditDescription(description);
-    setIsEditing(true);
-  };
-
-  const handleCancelEditing = () => {
-    setIsEditing(false);
+  const handleFinished = () => {
+    setEditIsFinished(!editIsFinished);
+    handleSaveEditing();
   };
 
   const handleSaveEditing = () => {
-    const trimmedName = editName.trim();
-    const trimmedDescription = editDescription.trim();
-
-    if (!trimmedName) {
+    if (!editName) {
       Alert.alert('Validation', 'Task name cannot be empty.');
       return;
     }
 
-    updateTask(id, {
-      name: trimmedName,
-      description: trimmedDescription,
-      priority: editPriority,
-    });
-
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              name: editName.trim(),
+              description: editDescription.trim(),
+              priority: editPriority,
+              isFinished: editIsFinished,
+            }
+          : task
+      )
+    );
     setIsEditing(false);
   };
+
   return (
     <View style={styles.card}>
       {isEditing ? (
@@ -128,7 +119,13 @@ const Tasks = ({
               <TouchableOpacity
                 key={x}
                 onPress={() => setEditPriority(x)}
-                style={styles.colorCircle}
+                style={[
+                  styles.prioritySelect,
+                  {
+                    borderWidth: editPriority === x ? 3 : 1,
+                    borderColor: editPriority === x ? '#000' : '#777',
+                  },
+                ]}
               >
                 <Text style={{ color: PRIORITY_COLORS[x - 1] }}>
                   {PRIORITY[x - 1]}
@@ -157,7 +154,7 @@ const Tasks = ({
               <Button
                 title="Cancel"
                 color="#cb0202ff"
-                onPress={handleCancelEditing}
+                onPress={() => setIsEditing(false)}
               />
             </View>
           </View>
@@ -176,15 +173,15 @@ const Tasks = ({
           <Text style={styles.description}>{description}</Text>
 
           <Text style={styles.status}>
-            {isFinished ? '✅ Done' : '⏳ In progress'}
+            {editIsFinished ? '✅ Done' : '⏳ In progress'}
           </Text>
 
           <View style={styles.buttons}>
             <View style={styles.buttonWrapper}>
               <Button
-                title={isFinished ? 'Not done' : 'Mark as done'}
+                title={editIsFinished ? 'Not done' : 'Mark as done'}
                 color={'#fff'}
-                onPress={handleToggleFinished}
+                onPress={handleFinished}
               />
             </View>
 
@@ -192,7 +189,7 @@ const Tasks = ({
               <Button
                 title="Edit task"
                 color={'#fff'}
-                onPress={handleStartEditing}
+                onPress={() => setIsEditing(true)}
               />
             </View>
 
@@ -277,7 +274,11 @@ const styles = StyleSheet.create({
     minHeight: 60,
     textAlignVertical: 'top',
   },
-  colorCircle: {
+  prioritySelect: {
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 25,
     borderRadius: 8,
   },
 });

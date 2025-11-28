@@ -36,6 +36,7 @@ const COLORS = [
   '#845ef7',
   '#f783ac',
   '#20c997',
+  '#ffffff',
 ];
 const OPTIONS = [1, 2, 3];
 const PRIORITY = ['Low', 'Mid', 'High'];
@@ -129,18 +130,26 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
               value={taskDescription}
               onChangeText={setTaskDescription}
             />
+            <Text>Priority:</Text>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
                 marginBottom: 10,
+                marginTop: 10,
               }}
             >
               {OPTIONS.map((x) => (
                 <TouchableOpacity
                   key={x}
                   onPress={() => setTaskPriority(x)}
-                  style={styles.colorCircle}
+                  style={[
+                    styles.prioritySelect,
+                    {
+                      borderWidth: taskPriority === x ? 3 : 1,
+                      borderColor: taskPriority === x ? '#000' : '#777',
+                    },
+                  ]}
                 >
                   <Text style={{ color: PRIORITY_COLORS[x - 1] }}>
                     {PRIORITY[x - 1]}
@@ -282,6 +291,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 10,
+  },
+  prioritySelect: {
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 25,
+    borderRadius: 8,
   },
   colorCircle: {
     width: 40,

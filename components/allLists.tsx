@@ -43,6 +43,7 @@ const COLORS = [
   '#845ef7',
   '#f783ac',
   '#20c997',
+  '#ffffff',
 ];
 
 const AllLists = ({ boardId }: ListProp) => {
@@ -92,7 +93,7 @@ const AllLists = ({ boardId }: ListProp) => {
 
     if (!trimmedName) return;
 
-    const lastTask = tasks[tasks.length - 1] as TaskType | undefined;
+    const lastTask = tasks[tasks.length - 1] as TaskType;
     const newId = lastTask ? lastTask.id + 1 : 1;
 
     const newTask: TaskType = {
