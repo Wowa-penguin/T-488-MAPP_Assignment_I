@@ -53,8 +53,8 @@ All functionality, structure, and models follow the guidelines provided in the a
 ### Primary Development Platform
 
 - Primary Platform: iOS / Android
-- Test Devices: iPhone 14, iPhone 16e, iPhone SE, "Samsung s22", "Pixel 5"
-- OS Version: iOS 16.1, Windows 11, "add more"
+- Test Devices: iPhone 14, iPhone 16e, iPhone SE, Samsung s22, Pixel 5, iPhone 16 Pro Max
+- OS Version: iOS 16.1, Windows 11.
 
 ### Platform-Specific Features
 
@@ -90,4 +90,5 @@ Android:
 
 ## Known Issues
 
-- ?
+- At the current stage of the development, we have not indentified any known issues.
+- All core features are functioning as expected, and no critical bugs have been encountered during testing.
