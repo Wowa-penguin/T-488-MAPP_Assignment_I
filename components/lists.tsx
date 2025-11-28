@@ -166,33 +166,19 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
                 </TouchableOpacity>
               ))}
             </View>
-            <View style={{ gap: 8 }}>
-              <View style={styles.addListButtons}>
-                <TouchableOpacity onPress={handleConfirm}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 700,
-                      alignSelf: 'center',
-                    }}
-                  >
-                    Confirm
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.addListButtons}>
-                <TouchableOpacity onPress={handleCancel}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 700,
-                      alignSelf: 'center',
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View>
+            <View style={{ gap: 8, flexDirection: 'row' }}>
+              <TouchableOpacity
+                style={styles.addListButtons}
+                onPress={handleCancel}
+              >
+                <Text style={styles.touchableText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.addListButtons}
+                onPress={handleConfirm}
+              >
+                <Text style={styles.touchableText}>Confirm</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -390,9 +376,17 @@ const styles = StyleSheet.create({
   },
   addListButtons: {
     alignSelf: 'center',
-    backgroundColor: '#0b3f8cff',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    backgroundColor: '#296dd3ff',
     width: '50%',
     borderRadius: 25,
+  },
+  touchableText: {
+    fontSize: 22,
+    fontWeight: 700,
+    alignSelf: 'center',
+    color: 'white',
   },
 });
 

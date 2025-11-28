@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Alert,
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -70,7 +69,6 @@ const Tasks = ({
       Alert.alert('Validation', 'Task name cannot be empty.');
       return;
     }
-
     setTasks((prev) =>
       prev.map((task) =>
         task.id === id
@@ -141,21 +139,18 @@ const Tasks = ({
             multiline
           />
           <View style={styles.buttons}>
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Save changes"
-                onPress={handleSaveEditing}
-                color={'white'}
-              />
-            </View>
-
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Cancel"
-                color="#cb0202ff"
-                onPress={() => setIsEditing(false)}
-              />
-            </View>
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={() => setIsEditing(false)}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={handleSaveEditing}
+            >
+              <Text style={styles.buttonText}>Save changes</Text>
+            </TouchableOpacity>
           </View>
         </>
       ) : (
@@ -233,11 +228,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: '#111827',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   description: {
     fontSize: 16,
     color: '#000000ff',
+    marginBottom: 4,
   },
   status: {
     fontSize: 16,
@@ -252,8 +248,8 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     width: '44%',
-    padding: 5,
-    backgroundColor: '#0b3f8cff',
+    padding: 6,
+    backgroundColor: '#296dd3ff',
     borderStyle: 'solid',
     borderWidth: 1.5,
     borderRadius: 25,

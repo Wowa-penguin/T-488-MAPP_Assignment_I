@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#0b3f8cff',
+    backgroundColor: '#296dd3ff',
     borderStyle: 'solid',
     borderWidth: 1.5,
     borderRadius: 25,

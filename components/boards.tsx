@@ -49,37 +49,17 @@ const Boards = ({
 
       <View style={styles.buttonRow}>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#0b3f8cff' }]}
+          style={[styles.button, { backgroundColor: '#296dd3ff' }]}
           onPress={onEdit}
         >
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: 700,
-              alignSelf: 'center',
-              padding: 8,
-              color: 'white',
-            }}
-          >
-            Edit
-          </Text>
+          <Text style={styles.touchableText}>Edit</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, { backgroundColor: 'red' }]}
           onPress={onDelete}
         >
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: 700,
-              alignSelf: 'center',
-              padding: 8,
-              color: 'white',
-            }}
-          >
-            Delete
-          </Text>
+          <Text style={styles.touchableText}>Delete</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -139,6 +119,13 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: 'auto',
     backgroundColor: '#d5e7f3ff',
+  },
+  touchableText: {
+    fontSize: 18,
+    fontWeight: 700,
+    alignSelf: 'center',
+    padding: 8,
+    color: 'white',
   },
 });
 
