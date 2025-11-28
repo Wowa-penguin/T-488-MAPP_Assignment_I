@@ -123,7 +123,7 @@ const Index = () => {
             params: { bId: currBoardId },
           }}
         >
-          <Text>{currTaskList.name}</Text>
+          <Text> ⬅ {currTaskList.name}</Text>
         </Link>
       ) : (
         <Text style={styles.listName}>No name</Text>
@@ -194,6 +194,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#0b3f8cff',
+    borderStyle: 'solid',
+    borderWidth: 1.5,
     borderRadius: 25,
     marginLeft: 2,
   },

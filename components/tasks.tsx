@@ -22,7 +22,7 @@ type TaskProp = {
   move: (id: number) => void;
 };
 
-const PRIORITY = ['Low', 'Mid', 'High'];
+const PRIORITY = ['🧊Low', '📌Mid', '❗High'];
 const OPTIONS = [1, 2, 3];
 const PRIORITY_COLORS = ['#72f029', '#d4cd00', '#fc1100'];
 
@@ -120,7 +120,13 @@ const Tasks = ({
                   },
                 ]}
               >
-                <Text style={{ color: PRIORITY_COLORS[x - 1] }}>
+                <Text
+                  style={{
+                    color: PRIORITY_COLORS[x - 1],
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                  }}
+                >
                   {PRIORITY[x - 1]}
                 </Text>
               </TouchableOpacity>
@@ -155,14 +161,17 @@ const Tasks = ({
       ) : (
         <>
           <Text style={styles.title}>{name}</Text>
-          <Text
-            style={[
-              styles.description,
-              { color: PRIORITY_COLORS[priority - 1] },
-            ]}
-          >
-            Priority: {PRIORITY[priority - 1]}
-          </Text>
+          <View style={{ flexDirection: 'row', gap: 4 }}>
+            <Text style={styles.description}>Priority:</Text>
+            <Text
+              style={[
+                styles.description,
+                { color: PRIORITY_COLORS[priority - 1] },
+              ]}
+            >
+              {PRIORITY[priority - 1]}
+            </Text>
+          </View>
           <Text style={styles.description}>{description}</Text>
 
           <Text style={styles.status}>
@@ -209,12 +218,10 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
-
     shadowColor: '#000',
     shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 4,
-
     elevation: 3,
   },
   title: {
@@ -228,7 +235,6 @@ const styles = StyleSheet.create({
     color: '#000000ff',
   },
   status: {
-    marginTop: 6,
     fontSize: 16,
     color: '#000000ff',
   },
@@ -242,6 +248,8 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     width: '40%',
     backgroundColor: '#0b3f8cff',
+    borderStyle: 'solid',
+    borderWidth: 1.5,
     borderRadius: 25,
   },
   editButtonWrapper: {
@@ -267,10 +275,11 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   prioritySelect: {
-    width: 40,
+    width: 'auto',
+    padding: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 25,
+    height: 'auto',
     borderRadius: 8,
   },
 });
