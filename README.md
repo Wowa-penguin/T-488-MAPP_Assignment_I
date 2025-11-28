@@ -47,18 +47,25 @@ All functionality, structure, and models follow the guidelines provided in the a
 
 ## Platform Support
 
-- Ios
+- iOS
 - Android
 
 ### Primary Development Platform
 
 - Primary Platform: iOS / Android
-- Test Devices: iPhone 14, iPhone 16e, "add more"
-- OS Version: iOS 16.1, "add more"
+- Test Devices: iPhone 14, iPhone 16e, iPhone SE, "add more"
+- OS Version: iOS 16.1, Windows 11, "add more"
 
 ### Platform-Specific Features
 
-- ?
+iOS:
+- Modal animations
+- Shadow rendering using shadowColor, shadowOpacity, shadowOffset, and shadowRadius (iOS-only shadow props)
+- Native “swipe back” gesture in navigation
+
+Android:
+- Shadow rendering via elevation property
+- Hardware back button support (automatically handled by Expo Router)
 
 ## Setup Instructions
 
