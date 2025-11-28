@@ -128,15 +128,27 @@ const Index = () => {
       ) : (
         <Text style={styles.listName}>No name</Text>
       )}
-      <Tasks
-        id={task.id}
-        name={task.name}
-        description={task.description}
-        priority={task.priority}
-        isFinished={task.isFinished}
-        listId={task.listId}
-        move={handleMove}
-      />
+      {currTaskList?.color ? (
+        <Tasks
+          id={task.id}
+          name={task.name}
+          description={task.description}
+          priority={task.priority}
+          isFinished={task.isFinished}
+          listColor={currTaskList?.color}
+          move={handleMove}
+        />
+      ) : (
+        <Tasks
+          id={task.id}
+          name={task.name}
+          description={task.description}
+          priority={task.priority}
+          isFinished={task.isFinished}
+          listColor={'#ffffffff'}
+          move={handleMove}
+        />
+      )}
     </View>
   );
 };

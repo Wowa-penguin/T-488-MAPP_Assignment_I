@@ -59,13 +59,13 @@
     {
       "id": 7,
       "name": "Top 10-20",
-      "color": "#0000ff",
+      "color": "#4dabf7",
       "boardId": 3
     },
     {
       "id": 8,
       "name": "Last",
-      "color": "#ff00ff",
+      "color": "#f783ac",
       "boardId": 3
     }
   ],

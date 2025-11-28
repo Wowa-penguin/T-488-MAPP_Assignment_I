@@ -17,18 +17,9 @@ type TaskProp = {
   description: string;
   priority: number;
   isFinished: boolean;
-  listId: number;
+  listColor: string;
 
   move: (id: number) => void;
-};
-
-type TaskType = {
-  id: number;
-  name: string;
-  description: string;
-  priority: number;
-  isFinished: boolean;
-  listId: number;
 };
 
 const PRIORITY = ['Low', 'Mid', 'High'];
@@ -41,7 +32,7 @@ const Tasks = ({
   description,
   priority,
   isFinished,
-  listId,
+  listColor,
   move,
 }: TaskProp) => {
   const { setTasks } = useData();
@@ -97,7 +88,7 @@ const Tasks = ({
   };
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: listColor }]}>
       {isEditing ? (
         <>
           <Text style={styles.editLabel}>Edit task</Text>
@@ -108,11 +99,13 @@ const Tasks = ({
             value={editName}
             onChangeText={setEditName}
           />
+          <Text>Priority:</Text>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-around',
               marginBottom: 10,
+              marginTop: 10,
             }}
           >
             {OPTIONS.map((x) => (
@@ -122,7 +115,7 @@ const Tasks = ({
                 style={[
                   styles.prioritySelect,
                   {
-                    borderWidth: editPriority === x ? 3 : 1,
+                    borderWidth: editPriority === x ? 2 : 1,
                     borderColor: editPriority === x ? '#000' : '#777',
                   },
                 ]}
@@ -212,7 +205,6 @@ const Tasks = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#ffffff',
     borderRadius: 12,
     paddingVertical: 8,
     paddingHorizontal: 10,
@@ -233,12 +225,12 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
-    color: '#4b5563',
+    color: '#000000ff',
   },
   status: {
     marginTop: 6,
     fontSize: 16,
-    color: '#6b7280',
+    color: '#000000ff',
   },
   buttons: {
     marginTop: 10,
