@@ -1,10 +1,24 @@
 import { useData } from '@/util/dataState';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 type TaskProp = {
   id: number;
+  name: string;
+  description: string;
+  priority: number;
+  isFinished: boolean;
+  listId: number;
+
   move: (id: number) => void;
 };
 
@@ -12,38 +26,40 @@ type TaskType = {
   id: number;
   name: string;
   description: string;
+  priority: number;
   isFinished: boolean;
   listId: number;
 };
 
-const Tasks = ({ id, move }: TaskProp) => {
-  const { tasks, setTasks } = useData();
-  const router = useRouter();
+const PRIORITY = ['Low', 'Mid', 'High'];
+const OPTIONS = [1, 2, 3];
+const PRIORITY_COLORS = ['#72f029', '#d4cd00', '#fc1100'];
 
-  const task = tasks.find((t) => t.id === id);
+const Tasks = ({
+  id,
+  name,
+  description,
+  priority,
+  isFinished,
+  listId,
+  move,
+}: TaskProp) => {
+  const { setTasks } = useData();
+  const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState('');
+  const [editPriority, setEditPriority] = useState(priority);
   const [editDescription, setEditDescription] = useState('');
-
-  if (!task) {
-    return (
-      <View style={styles.card}>
-        <Text style={styles.title}>Task not found.</Text>
-      </View>
-    );
-  }
 
   const updateTask = (taskId: number, updatedFields: Partial<TaskType>) => {
     setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId ? { ...task, ...updatedFields } : task
-      )
+      prev.map((task) => (id === taskId ? { ...task, ...updatedFields } : task))
     );
   };
 
   const handleToggleFinished = () => {
-    updateTask(id, { isFinished: !task?.isFinished });
+    updateTask(id, { isFinished: !isFinished });
   };
 
   const handleDeleteTask = (taskId: number) => {
@@ -52,25 +68,19 @@ const Tasks = ({ id, move }: TaskProp) => {
   };
 
   const confirmDeleteTask = () => {
-    if (!task) return;
-
-    Alert.alert(
-      'Delete task',
-      `Are you sure you want to delete "${task.name}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => handleDeleteTask(task.id),
-        },
-      ]
-    );
+    Alert.alert('Delete task', `Are you sure you want to delete "${name}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => handleDeleteTask(id),
+      },
+    ]);
   };
 
   const handleStartEditing = () => {
-    setEditName(task.name);
-    setEditDescription(task.description);
+    setEditName(name);
+    setEditDescription(description);
     setIsEditing(true);
   };
 
@@ -90,11 +100,11 @@ const Tasks = ({ id, move }: TaskProp) => {
     updateTask(id, {
       name: trimmedName,
       description: trimmedDescription,
+      priority: editPriority,
     });
 
     setIsEditing(false);
   };
-
   return (
     <View style={styles.card}>
       {isEditing ? (
@@ -107,6 +117,25 @@ const Tasks = ({ id, move }: TaskProp) => {
             value={editName}
             onChangeText={setEditName}
           />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginBottom: 10,
+            }}
+          >
+            {OPTIONS.map((x) => (
+              <TouchableOpacity
+                key={x}
+                onPress={() => setEditPriority(x)}
+                style={styles.colorCircle}
+              >
+                <Text style={{ color: PRIORITY_COLORS[x - 1] }}>
+                  {PRIORITY[x - 1]}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
           <TextInput
             style={[styles.input, styles.inputMultiline]}
@@ -135,18 +164,25 @@ const Tasks = ({ id, move }: TaskProp) => {
         </>
       ) : (
         <>
-          <Text style={styles.title}>{task.name}</Text>
-
-          <Text style={styles.description}>{task.description}</Text>
+          <Text style={styles.title}>{name}</Text>
+          <Text
+            style={[
+              styles.description,
+              { color: PRIORITY_COLORS[priority - 1] },
+            ]}
+          >
+            Priority: {PRIORITY[priority - 1]}
+          </Text>
+          <Text style={styles.description}>{description}</Text>
 
           <Text style={styles.status}>
-            {task.isFinished ? '✅ Done' : '⏳ In progress'}
+            {isFinished ? '✅ Done' : '⏳ In progress'}
           </Text>
 
           <View style={styles.buttons}>
             <View style={styles.buttonWrapper}>
               <Button
-                title={task.isFinished ? 'Not done' : 'Mark as done'}
+                title={isFinished ? 'Not done' : 'Mark as done'}
                 color={'#fff'}
                 onPress={handleToggleFinished}
               />
@@ -202,7 +238,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4b5563',
   },
-
   status: {
     marginTop: 6,
     fontSize: 16,
@@ -226,7 +261,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   editLabel: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '700',
     marginBottom: 8,
   },
@@ -241,6 +276,9 @@ const styles = StyleSheet.create({
   inputMultiline: {
     minHeight: 60,
     textAlignVertical: 'top',
+  },
+  colorCircle: {
+    borderRadius: 8,
   },
 });
 

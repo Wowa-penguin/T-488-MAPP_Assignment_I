@@ -21,10 +21,11 @@ type ListProps = {
     id: number;
     name: string;
     description: string;
+    priority: number;
     isFinished: boolean;
     listId: number;
   }[];
-  onAddTask: (name: string, description: string) => void;
+  onAddTask: (name: string, description: string, priority: number) => void;
 };
 
 const COLORS = [
@@ -36,6 +37,9 @@ const COLORS = [
   '#f783ac',
   '#20c997',
 ];
+const OPTIONS = [1, 2, 3];
+const PRIORITY = ['Low', 'Mid', 'High'];
+const PRIORITY_COLORS = ['#72f029', '#d4cd00', '#fc1100'];
 
 const darkenHex = (hex: string, amount: number = 30): string => {
   const cleanHex = hex.replace('#', '');
@@ -62,6 +66,7 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
   const [listColor, setListColor] = useState(color);
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
+  const [taskPriority, setTaskPriority] = useState(1);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editListVar, setEditListVar] = useState(false);
 
@@ -72,10 +77,11 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
   };
 
   const handleConfirm = () => {
-    onAddTask(taskName, taskDescription);
+    onAddTask(taskName, taskDescription, taskPriority);
     setEditModalVisible(false);
     setTaskName('');
     setTaskDescription('');
+    setTaskPriority(1);
   };
 
   const confirmDeleteList = () => {
@@ -95,11 +101,8 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
 
   const handleNameChange = () => {
     setLists((prev) =>
-      prev.map((list) => (list.id === id ? { ...list, name: listName } : list))
-    );
-    setLists((prev) =>
       prev.map((list) =>
-        list.id === id ? { ...list, color: listColor } : list
+        list.id === id ? { ...list, name: listName, color: listColor } : list
       )
     );
     setEditListVar(false);
@@ -126,6 +129,25 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
               value={taskDescription}
               onChangeText={setTaskDescription}
             />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                marginBottom: 10,
+              }}
+            >
+              {OPTIONS.map((x) => (
+                <TouchableOpacity
+                  key={x}
+                  onPress={() => setTaskPriority(x)}
+                  style={styles.colorCircle}
+                >
+                  <Text style={{ color: PRIORITY_COLORS[x - 1] }}>
+                    {PRIORITY[x - 1]}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
             <View style={{ gap: 8 }}>
               <View style={styles.addListButtons}>
                 <Button
@@ -196,6 +218,15 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             <Text style={styles.columnText}>
               {task.isFinished ? '✅ ' : '⏳ '}
               {task.name}
+            </Text>
+            <Text
+              style={[
+                styles.columnText,
+                { color: PRIORITY_COLORS[task.priority - 1] },
+              ]}
+            >
+              {' '}
+              {PRIORITY[task.priority - 1]}
             </Text>
           </Link>
         ))}

@@ -30,6 +30,7 @@ type TaskType = {
   id: number;
   name: string;
   description: string;
+  priority: number;
   isFinished: boolean;
   listId: number;
 };
@@ -80,7 +81,12 @@ const AllLists = ({ boardId }: ListProp) => {
     setColor('');
   };
 
-  const handleAddTask = (listId: number, name: string, description: string) => {
+  const handleAddTask = (
+    listId: number,
+    name: string,
+    description: string,
+    priority: number
+  ) => {
     const trimmedName = name.trim();
     const trimmedDescription = description.trim();
 
@@ -93,6 +99,7 @@ const AllLists = ({ boardId }: ListProp) => {
       id: newId,
       name: trimmedName,
       description: trimmedDescription,
+      priority: priority,
       isFinished: false,
       listId,
     };
@@ -165,8 +172,8 @@ const AllLists = ({ boardId }: ListProp) => {
             name={list.name}
             color={list.color}
             tasks={list.tasks}
-            onAddTask={(name, description) =>
-              handleAddTask(list.id, name, description)
+            onAddTask={(name, description, priority) =>
+              handleAddTask(list.id, name, description, priority)
             }
           />
         </View>

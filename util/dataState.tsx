@@ -19,6 +19,7 @@ type TaskType = {
   id: number;
   name: string;
   description: string;
+  priority: number;
   isFinished: boolean;
   listId: number;
 };

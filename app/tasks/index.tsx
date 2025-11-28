@@ -128,7 +128,15 @@ const Index = () => {
       ) : (
         <Text style={styles.listName}>No name</Text>
       )}
-      <Tasks id={task.id} move={handleMove} />
+      <Tasks
+        id={task.id}
+        name={task.name}
+        description={task.description}
+        priority={task.priority}
+        isFinished={task.isFinished}
+        listId={task.listId}
+        move={handleMove}
+      />
     </View>
   );
 };
