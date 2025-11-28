@@ -3,7 +3,6 @@ import data from '@/data/data.json';
 import React, { useState } from 'react';
 import {
   Alert,
-  Button,
   Modal,
   ScrollView,
   StyleSheet,
@@ -139,24 +138,26 @@ const BoardList = () => {
               value={editThumbnailPhoto}
               onChangeText={setEditThumbnailPhoto}
             />
-            <View style={[styles.button, { width: '60%' }]}>
-              <Button
-                title="Save changes"
-                color={'#fff'}
-                onPress={handleSaveEdit}
-              />
-            </View>
+            <TouchableOpacity
+              style={[styles.button, { width: '60%' }]}
+              onPress={handleSaveEdit}
+            >
+              <Text style={[styles.buttonText, { color: '#fff' }]}>
+                Save changes
+              </Text>
+            </TouchableOpacity>
 
-            <View style={[styles.button, { marginTop: 10 }]}>
-              <Button
-                title="Cancel"
-                color="#d7d7d7ff"
-                onPress={() => {
-                  setEditModalVisible(false);
-                  setEditingId(null);
-                }}
-              />
-            </View>
+            <TouchableOpacity
+              style={[styles.button, { marginTop: 10 }]}
+              onPress={() => {
+                setEditModalVisible(false);
+                setEditingId(null);
+              }}
+            >
+              <Text style={[styles.buttonText, { color: '#d7d7d7ff' }]}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -259,6 +260,11 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1.5,
     borderRadius: 20,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: '700',
+    alignSelf: 'center',
   },
 });
 
