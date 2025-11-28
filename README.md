@@ -1,8 +1,16 @@
 # Project Name
 
+- Toodler
+
 ## Description
 
-[A brief description of your React Native application.]
+Toodler is a lightweight Kanban-style project management application built with React Native and Expo.
+It was developed as part of an assignment where the goal was to implement a fully functional task-organizing tool using in-memory storage rather than an external database.
+
+The app loads initial data from a pre-populated data.json file and allows users to manage Boards, Lists, and Tasks following the principles of clean architecture and React Native best practices. Users can create, view, update, and delete boards, lists, and tasks — as well as move tasks between lists — all within a simple, mobile-friendly interface.
+
+This project was created for the Umbrella agency, who required a mobile Kanban solution but lacked in-house app development capabilities.
+All functionality, structure, and models follow the guidelines provided in the assignment specification.
 
 ## Table of Contents
 
@@ -18,11 +26,9 @@
 - Known Issues
 - Future Improvements
 
-## Running the app
-
 ### Navigate to project directory
 
-`cd your-project-name`
+`cd Toodler`
 
 ### Install dependencies
 
@@ -35,32 +41,28 @@
 ## Technologies Used
 
 - React Native
-- React Navigation (if used)
-- State Management Solution (Redux/Context API/etc.)
-- [Any other major libraries/frameworks]
+- Expo
+- React Navigation
+- Custom State Management / Data Utility
 
 ## Platform Support
 
+- Ios
+- Android
+
 ### Primary Development Platform
 
-- Primary Platform: [iOS/Android]
-- Test Device: [e.g., iPhone 14 Pro/Samsung Galaxy S21]
-- OS Version: [e.g., iOS 16.5/Android 13]
-
-### Secondary Platform Testing
-
-- Secondary Platform: [iOS/Android]
-- Test Device: [e.g., iPhone 13/Google Pixel 6]
-- OS Version: [e.g., iOS 16.2/Android 12]
-- Testing Status: [Limited/Partial/Comprehensive]
-- Known Platform-Specific Issues: [List any issues specific to this
-  platform]
+- Primary Platform: iOS / Android
+- Test Devices: iPhone 14, iPhone 16e, "add more"
+- OS Version: iOS 16.1, "add more"
 
 ### Platform-Specific Features
 
-- Only state here if any
+- ?
 
 ## Setup Instructions
+
+- Clone the repository: `git clone https://github.com/Wowa-penguin/T-488-MAPP_Assignment_I.git`
 
 ### Prerequisites
 
@@ -69,6 +71,7 @@
 - React Native CLI
 - Xcode (for iOS development)
 - Android Studio (for Android development)
+- Expo Go app (for local development)
 
 ### Environment Setup
 
@@ -78,4 +81,4 @@
 
 ## Known Issues
 
-- [List issues]
+- ?
