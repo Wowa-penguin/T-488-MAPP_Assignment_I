@@ -194,7 +194,7 @@ const AllLists = ({ boardId }: ListProp) => {
         </View>
       ))}
 
-      <View style={[styles.button, { marginBottom: 20 }]}>
+      <View style={[styles.button, { marginBottom: 50 }]}>
         <Button
           title="Add new list"
           color={'#d6cbcbff'}
