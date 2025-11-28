@@ -342,6 +342,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     width: '25%',
     alignSelf: 'center',
+    borderStyle: 'solid',
+    borderWidth: 1.5,
     borderRadius: 25,
   },
   modalBackground: {

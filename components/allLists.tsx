@@ -5,6 +5,7 @@ import { Link } from 'expo-router';
 import React, { useState } from 'react';
 
 import {
+  Alert,
   Button,
   Modal,
   ScrollView,
@@ -74,6 +75,11 @@ const AllLists = ({ boardId }: ListProp) => {
     }));
 
   const handleAddList = () => {
+    if (!name) {
+      Alert.alert('Validation', 'Task name cannot be empty.');
+      return;
+    }
+
     const newId = lists[lists.length - 1].id + 1;
 
     const newList: ListsType = {
@@ -170,7 +176,7 @@ const AllLists = ({ boardId }: ListProp) => {
 
       <View style={styles.boardNameView}>
         <Link href={'/'}>
-          <Text style={styles.boardName}>{boardName}</Text>
+          <Text style={styles.boardName}> ⬅ {boardName}</Text>
         </Link>
       </View>
 
@@ -237,7 +243,10 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'center',
     backgroundColor: '#0b3f8cff',
-    width: '40%',
+    borderStyle: 'solid',
+    borderWidth: 1.5,
+    width: 'auto',
+    height: 'auto',
     borderRadius: 20,
   },
   input: {

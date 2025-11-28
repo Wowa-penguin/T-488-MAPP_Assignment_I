@@ -120,7 +120,13 @@ const Tasks = ({
                   },
                 ]}
               >
-                <Text style={{ color: PRIORITY_COLORS[x - 1] }}>
+                <Text
+                  style={{
+                    color: PRIORITY_COLORS[x - 1],
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                  }}
+                >
                   {PRIORITY[x - 1]}
                 </Text>
               </TouchableOpacity>
@@ -242,6 +248,8 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     width: '40%',
     backgroundColor: '#0b3f8cff',
+    borderStyle: 'solid',
+    borderWidth: 1.5,
     borderRadius: 25,
   },
   editButtonWrapper: {
@@ -267,10 +275,11 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   prioritySelect: {
-    width: 40,
+    width: 'auto',
+    padding: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 25,
+    height: 'auto',
     borderRadius: 8,
   },
 });

@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, View, Pressable } from 'react-native';
+import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Link } from 'expo-router';
 
@@ -41,8 +41,12 @@ const Boards = ({
       </Link>
 
       <View style={styles.buttonRow}>
-        <Button title="Edit" onPress={onEdit} />
-        <Button title="Delete" color="red" onPress={onDelete} />
+        <View style={styles.button}>
+          <Button title="Edit" onPress={onEdit} />
+        </View>
+        <View style={styles.button}>
+          <Button title="Delete" color="red" onPress={onDelete} />
+        </View>
       </View>
     </View>
   );
@@ -56,21 +60,18 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 20,
     alignItems: 'center',
-
     shadowColor: '#000',
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 6,
     elevation: 4,
   },
-
   image: {
     width: '100%',
     alignSelf: 'center',
     aspectRatio: 4 / 3,
     borderRadius: 12,
   },
-
   name: {
     marginTop: 12,
     textAlign: 'center',
@@ -84,22 +85,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingHorizontal: 4,
   },
-
   buttonRow: {
     marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '70%',
   },
-
   pressed: {
     transform: [{ scale: 0.97 }],
     opacity: 0.9,
   },
-
   cardContent: {
     width: '100%',
     alignItems: 'center',
+  },
+  button: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 25,
+    width: 'auto',
+    backgroundColor: '#d5e7f3ff',
   },
 });
 

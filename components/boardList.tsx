@@ -33,7 +33,10 @@ const BoardList = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
 
   const handleAddBoard = () => {
-    if (!newName.trim()) return;
+    if (!newName.trim()) {
+      Alert.alert('Validation', 'Board name cannot be empty.');
+      return;
+    }
 
     const nextId = boards.length > 0 ? boards[boards.length - 1].id + 1 : 1;
 
@@ -135,13 +138,18 @@ const BoardList = () => {
               value={editThumbnailPhoto}
               onChangeText={setEditThumbnailPhoto}
             />
+            <View style={[styles.button, { width: '60%' }]}>
+              <Button
+                title="Save changes"
+                color={'#fff'}
+                onPress={handleSaveEdit}
+              />
+            </View>
 
-            <Button title="Save changes" onPress={handleSaveEdit} />
-
-            <View style={{ marginTop: 10 }}>
+            <View style={[styles.button, { marginTop: 10 }]}>
               <Button
                 title="Cancel"
-                color="#888"
+                color="#d7d7d7ff"
                 onPress={() => {
                   setEditModalVisible(false);
                   setEditingId(null);
@@ -157,24 +165,28 @@ const BoardList = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder="Name:"
+          placeholderTextColor="#6d6d6dff"
           value={newName}
           onChangeText={setNewName}
         />
         <TextInput
           style={styles.input}
-          placeholder="Description"
+          placeholder="Description:"
+          placeholderTextColor="#6d6d6dff"
           value={newDescription}
           onChangeText={setNewDescription}
         />
         <TextInput
           style={styles.input}
-          placeholder="Image URL"
+          placeholder="Image URL:"
+          placeholderTextColor="#6d6d6dff"
           value={newThumbnailPhoto}
           onChangeText={setNewThumbnailPhoto}
         />
-
-        <Button title="Add board" onPress={handleAddBoard} />
+        <View style={styles.button}>
+          <Button title="Add board" color={'#fff'} onPress={handleAddBoard} />
+        </View>
       </View>
 
       <View style={styles.boardGrid}>
@@ -236,6 +248,14 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 12,
     elevation: 10,
+  },
+  button: {
+    alignSelf: 'center',
+    backgroundColor: '#0b3f8cff',
+    width: '40%',
+    borderStyle: 'solid',
+    borderWidth: 1.5,
+    borderRadius: 20,
   },
 });
 
