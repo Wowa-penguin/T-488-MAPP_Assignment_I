@@ -33,6 +33,7 @@ type TaskType = {
   isFinished: boolean;
   listId: number;
 };
+
 const COLORS = [
   '#ff6b6b',
   '#4dabf7',
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
   colorCircle: {
     width: 40,
     height: 40,
-    borderRadius: 8, // square instead of circle
+    borderRadius: 8,
   },
   flexButton: {
     flexDirection: 'row',

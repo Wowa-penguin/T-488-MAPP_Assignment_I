@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -25,6 +26,16 @@ type ListProps = {
   }[];
   onAddTask: (name: string, description: string) => void;
 };
+
+const COLORS = [
+  '#ff6b6b',
+  '#4dabf7',
+  '#51cf66',
+  '#ffa94d',
+  '#845ef7',
+  '#f783ac',
+  '#20c997',
+];
 
 const darkenHex = (hex: string, amount: number = 30): string => {
   const cleanHex = hex.replace('#', '');
@@ -53,10 +64,6 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
   const [taskDescription, setTaskDescription] = useState('');
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editListVar, setEditListVar] = useState(false);
-
-  const handleAdd = () => {
-    setEditModalVisible(true);
-  };
 
   const handleCancel = () => {
     setEditModalVisible(false);
@@ -119,11 +126,17 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
               value={taskDescription}
               onChangeText={setTaskDescription}
             />
-            <View style={styles.buttons}>
-              <Button title="Confirm" onPress={handleConfirm} />
-            </View>
-            <View style={styles.buttons}>
-              <Button title="Cancel" onPress={handleCancel} />
+            <View style={{ gap: 8 }}>
+              <View style={styles.addListButtons}>
+                <Button
+                  title="Confirm"
+                  color={'white'}
+                  onPress={handleConfirm}
+                />
+              </View>
+              <View style={styles.addListButtons}>
+                <Button title="Cancel" color={'white'} onPress={handleCancel} />
+              </View>
             </View>
           </View>
         </View>
@@ -136,12 +149,22 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             value={listName.toUpperCase()}
             onChangeText={setListName}
           />
-          <TextInput
-            style={styles.input}
-            placeholder={listColor}
-            value={listColor}
-            onChangeText={setListColor}
-          />
+          <View style={styles.colorPick}>
+            {COLORS.map((c) => (
+              <TouchableOpacity
+                key={c}
+                onPress={() => setListColor(c)}
+                style={[
+                  styles.colorCircle,
+                  {
+                    backgroundColor: c,
+                    borderWidth: color === c ? 3 : 1,
+                    borderColor: color === c ? '#000' : '#777',
+                  },
+                ]}
+              />
+            ))}
+          </View>
           <View style={styles.confirmButton}>
             <Button title="Confirm" onPress={handleNameChange} />
           </View>
@@ -179,9 +202,17 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
 
         <View style={styles.listsButtons}>
           <View style={styles.buttons}>
-            <Button title="Add task" onPress={handleAdd} />
+            <Button
+              title="Add task"
+              onPress={() => setEditModalVisible(true)}
+            />
           </View>
-          <View style={styles.buttons}>
+          <View
+            style={[
+              styles.buttons,
+              { borderStyle: 'solid', borderLeftWidth: 2, borderRightWidth: 2 },
+            ]}
+          >
             <Button title="Edit" onPress={() => setEditListVar(true)} />
           </View>
           <View style={styles.buttons}>
@@ -213,6 +244,18 @@ const styles = StyleSheet.create({
   columnText: {
     fontWeight: '500',
     fontSize: 18,
+  },
+  colorPick: {
+    flex: 1,
+    gap: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  colorCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
   },
   card: {
     gap: 4,
@@ -258,8 +301,13 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   buttons: {
-    //Todo: cool styles for add task and delete list
     padding: 3,
+  },
+  addListButtons: {
+    alignSelf: 'center',
+    backgroundColor: '#0b3f8cff',
+    width: '50%',
+    borderRadius: 25,
   },
 });
 

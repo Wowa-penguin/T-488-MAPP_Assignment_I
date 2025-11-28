@@ -116,11 +116,15 @@ const Tasks = ({ id, move }: TaskProp) => {
             multiline
           />
           <View style={styles.buttons}>
-            <View style={styles.editButtonWrapper}>
-              <Button title="Save changes" onPress={handleSaveEditing} />
+            <View style={styles.buttonWrapper}>
+              <Button
+                title="Save changes"
+                onPress={handleSaveEditing}
+                color={'white'}
+              />
             </View>
 
-            <View style={styles.editButtonWrapper}>
+            <View style={styles.buttonWrapper}>
               <Button
                 title="Cancel"
                 color="#cb0202ff"
@@ -142,7 +146,7 @@ const Tasks = ({ id, move }: TaskProp) => {
           <View style={styles.buttons}>
             <View style={styles.buttonWrapper}>
               <Button
-                title={task.isFinished ? 'Mark as not done' : 'Mark as done'}
+                title={task.isFinished ? 'Not done' : 'Mark as done'}
                 color={'#fff'}
                 onPress={handleToggleFinished}
               />
@@ -212,13 +216,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   buttonWrapper: {
-    width: '48%',
-    backgroundColor: '#da73f3ff',
+    width: '40%',
+    backgroundColor: '#0b3f8cff',
     borderRadius: 25,
   },
   editButtonWrapper: {
-    width: '45%',
-    backgroundColor: '#76da1eff',
+    width: '40%',
+    backgroundColor: '#0b3f8cff',
     borderRadius: 25,
   },
   editLabel: {
