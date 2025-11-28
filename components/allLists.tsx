@@ -155,32 +155,14 @@ const AllLists = ({ boardId }: ListProp) => {
             </View>
             <View style={styles.flexButton}>
               <TouchableOpacity style={styles.button} onPress={handleAddList}>
-                <Text
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 700,
-                    alignSelf: 'center',
-                  }}
-                >
-                  Add new list
-                </Text>
+                <Text style={styles.touchableText}>Add new list</Text>
               </TouchableOpacity>
-              <View style={styles.button}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => setEditModalVisible(false)}
-                >
-                  <Text
-                    style={{
-                      fontSize: 22,
-                      fontWeight: 700,
-                      alignSelf: 'center',
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setEditModalVisible(false)}
+              >
+                <Text style={styles.touchableText}>Cancel</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -206,22 +188,12 @@ const AllLists = ({ boardId }: ListProp) => {
         </View>
       ))}
 
-      <View style={[styles.button, { marginBottom: 50 }]}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setEditModalVisible(true)}
-        >
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: 700,
-              alignSelf: 'center',
-            }}
-          >
-            Add new list
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={[styles.button, { marginBottom: 50 }]}
+        onPress={() => setEditModalVisible(true)}
+      >
+        <Text style={styles.touchableText}>Add new list</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -264,11 +236,12 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'center',
     backgroundColor: '#0b3f8cff',
-    borderStyle: 'solid',
-    borderWidth: 1.5,
+    padding: 10,
     width: 'auto',
     height: 'auto',
-    borderRadius: 20,
+    borderRadius: 25,
+    borderStyle: 'solid',
+    borderWidth: 2,
   },
   input: {
     borderWidth: 1,
@@ -289,6 +262,12 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 12,
     elevation: 10,
+  },
+  touchableText: {
+    fontSize: 22,
+    fontWeight: 700,
+    alignSelf: 'center',
+    color: 'white',
   },
 });
 

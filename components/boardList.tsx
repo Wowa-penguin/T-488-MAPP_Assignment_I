@@ -187,7 +187,15 @@ const BoardList = () => {
           onChangeText={setNewThumbnailPhoto}
         />
         <TouchableOpacity style={styles.button} onPress={handleAddBoard}>
-          <Text style={{ fontSize: 20, fontWeight: 700, alignSelf: 'center' }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 700,
+              alignSelf: 'center',
+              padding: 10,
+              color: 'white',
+            }}
+          >
             Create board
           </Text>
         </TouchableOpacity>
@@ -256,7 +264,7 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'center',
     backgroundColor: '#0b3f8cff',
-    width: '40%',
+    width: 'auto',
     borderStyle: 'solid',
     borderWidth: 1.5,
     borderRadius: 20,

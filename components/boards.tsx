@@ -52,7 +52,15 @@ const Boards = ({
           style={[styles.button, { backgroundColor: '#0b3f8cff' }]}
           onPress={onEdit}
         >
-          <Text style={{ fontSize: 20, fontWeight: 700, alignSelf: 'center' }}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 700,
+              alignSelf: 'center',
+              padding: 8,
+              color: 'white',
+            }}
+          >
             Edit
           </Text>
         </TouchableOpacity>
@@ -63,9 +71,11 @@ const Boards = ({
         >
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: 700,
               alignSelf: 'center',
+              padding: 8,
+              color: 'white',
             }}
           >
             Delete

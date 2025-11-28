@@ -251,7 +251,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   buttonWrapper: {
-    width: '40%',
+    width: '44%',
+    padding: 5,
     backgroundColor: '#0b3f8cff',
     borderStyle: 'solid',
     borderWidth: 1.5,
@@ -262,11 +263,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     alignSelf: 'center',
     color: '#fff',
-  },
-  editButtonWrapper: {
-    width: '40%',
-    backgroundColor: '#0b3f8cff',
-    borderRadius: 25,
   },
   editLabel: {
     fontSize: 18,
