@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 
 import {
   Alert,
-  Button,
   Modal,
   ScrollView,
   StyleSheet,
@@ -155,19 +154,32 @@ const AllLists = ({ boardId }: ListProp) => {
               ))}
             </View>
             <View style={styles.flexButton}>
+              <TouchableOpacity style={styles.button} onPress={handleAddList}>
+                <Text
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 700,
+                    alignSelf: 'center',
+                  }}
+                >
+                  Add new list
+                </Text>
+              </TouchableOpacity>
               <View style={styles.button}>
-                <Button
-                  title="Add new list"
-                  color={'#d6cbcbff'}
-                  onPress={handleAddList}
-                />
-              </View>
-              <View style={styles.button}>
-                <Button
-                  title="Cancel"
-                  color={'#d6cbcbff'}
+                <TouchableOpacity
+                  style={styles.button}
                   onPress={() => setEditModalVisible(false)}
-                />
+                >
+                  <Text
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 700,
+                      alignSelf: 'center',
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -195,11 +207,20 @@ const AllLists = ({ boardId }: ListProp) => {
       ))}
 
       <View style={[styles.button, { marginBottom: 50 }]}>
-        <Button
-          title="Add new list"
-          color={'#d6cbcbff'}
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => setEditModalVisible(true)}
-        />
+        >
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: 700,
+              alignSelf: 'center',
+            }}
+          >
+            Add new list
+          </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

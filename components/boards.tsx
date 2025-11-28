@@ -1,4 +1,11 @@
-import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { Link } from 'expo-router';
 
@@ -41,12 +48,29 @@ const Boards = ({
       </Link>
 
       <View style={styles.buttonRow}>
-        <View style={styles.button}>
-          <Button title="Edit" onPress={onEdit} />
-        </View>
-        <View style={styles.button}>
-          <Button title="Delete" color="red" onPress={onDelete} />
-        </View>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#0b3f8cff' }]}
+          onPress={onEdit}
+        >
+          <Text style={{ fontSize: 20, fontWeight: 700, alignSelf: 'center' }}>
+            Edit
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: 'red' }]}
+          onPress={onDelete}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 700,
+              alignSelf: 'center',
+            }}
+          >
+            Delete
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

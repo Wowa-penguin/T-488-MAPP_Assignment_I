@@ -168,14 +168,30 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             </View>
             <View style={{ gap: 8 }}>
               <View style={styles.addListButtons}>
-                <Button
-                  title="Confirm"
-                  color={'white'}
-                  onPress={handleConfirm}
-                />
+                <TouchableOpacity onPress={handleConfirm}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      alignSelf: 'center',
+                    }}
+                  >
+                    Confirm
+                  </Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.addListButtons}>
-                <Button title="Cancel" color={'white'} onPress={handleCancel} />
+                <TouchableOpacity onPress={handleCancel}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      alignSelf: 'center',
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

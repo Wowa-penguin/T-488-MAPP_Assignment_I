@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -184,9 +185,11 @@ const BoardList = () => {
           value={newThumbnailPhoto}
           onChangeText={setNewThumbnailPhoto}
         />
-        <View style={styles.button}>
-          <Button title="Add board" color={'#fff'} onPress={handleAddBoard} />
-        </View>
+        <TouchableOpacity style={styles.button} onPress={handleAddBoard}>
+          <Text style={{ fontSize: 20, fontWeight: 700, alignSelf: 'center' }}>
+            Create board
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.boardGrid}>

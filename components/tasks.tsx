@@ -179,32 +179,37 @@ const Tasks = ({
           </Text>
 
           <View style={styles.buttons}>
-            <View style={styles.buttonWrapper}>
-              <Button
-                title={editIsFinished ? 'Not done' : 'Mark as done'}
-                color={'#fff'}
-                onPress={handleFinished}
-              />
-            </View>
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={handleFinished}
+            >
+              <Text style={styles.buttonText}>
+                {editIsFinished ? 'Not done' : 'Mark as done'}
+              </Text>
+            </TouchableOpacity>
 
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Edit task"
-                color={'#fff'}
-                onPress={() => setIsEditing(true)}
-              />
-            </View>
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={() => setIsEditing(true)}
+            >
+              <Text style={styles.buttonText}>Edit task</Text>
+            </TouchableOpacity>
 
-            <View style={styles.buttonWrapper}>
-              <Button
-                title="Delete task"
-                color="#bf2727ff"
-                onPress={confirmDeleteTask}
-              />
-            </View>
-            <View style={styles.buttonWrapper}>
-              <Button title="Move" color={'#fff'} onPress={() => move(id)} />
-            </View>
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={confirmDeleteTask}
+            >
+              <Text style={[styles.buttonText, { color: '#bf2727ff' }]}>
+                Delete task
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttonWrapper}
+              onPress={() => move(id)}
+            >
+              <Text style={styles.buttonText}>Move</Text>
+            </TouchableOpacity>
           </View>
         </>
       )}
@@ -251,6 +256,12 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1.5,
     borderRadius: 25,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: '700',
+    alignSelf: 'center',
+    color: '#fff',
   },
   editButtonWrapper: {
     width: '40%',
