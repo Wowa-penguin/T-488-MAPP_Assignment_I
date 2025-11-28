@@ -59,16 +59,22 @@ const Tasks = ({
     ]);
   };
 
-  const handleFinished = () => {
-    setEditIsFinished(!editIsFinished);
-    handleSaveEditing();
+  const toggleFinished = () => {
+    setEditIsFinished((prev) => {
+      const next = !prev;
+      handleSaveEditing(next);
+      return next;
+    });
   };
-
-  const handleSaveEditing = () => {
+  const handleSaveEditing = (nextIsFinished?: boolean) => {
     if (!editName) {
       Alert.alert('Validation', 'Task name cannot be empty.');
       return;
     }
+
+    const isFinishedToSave =
+      typeof nextIsFinished === 'boolean' ? nextIsFinished : editIsFinished;
+
     setTasks((prev) =>
       prev.map((task) =>
         task.id === id
@@ -77,7 +83,7 @@ const Tasks = ({
               name: editName.trim(),
               description: editDescription.trim(),
               priority: editPriority,
-              isFinished: editIsFinished,
+              isFinished: isFinishedToSave,
             }
           : task
       )
@@ -147,7 +153,7 @@ const Tasks = ({
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonWrapper}
-              onPress={handleSaveEditing}
+              onPress={() => handleSaveEditing()}
             >
               <Text style={styles.buttonText}>Save changes</Text>
             </TouchableOpacity>
@@ -176,7 +182,7 @@ const Tasks = ({
           <View style={styles.buttons}>
             <TouchableOpacity
               style={styles.buttonWrapper}
-              onPress={handleFinished}
+              onPress={toggleFinished}
             >
               <Text style={styles.buttonText}>
                 {editIsFinished ? 'Not done' : 'Mark as done'}
