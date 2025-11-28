@@ -37,7 +37,16 @@ const COLORS = [
   '#f783ac',
   '#20c997',
   '#ffffff',
+  '#cccccc',
+  '#ffd43b',
+  '#94d82d',
+  '#339af0',
+  '#e599f7',
+  '#ff922b',
+  '#63e6be',
+  '#adb5bd',
 ];
+
 const OPTIONS = [1, 2, 3];
 const PRIORITY = ['Low', 'Mid', 'High'];
 const PRIORITY_COLORS = ['#72f029', '#d4cd00', '#fc1100'];
@@ -288,6 +297,7 @@ const styles = StyleSheet.create({
   colorPick: {
     flex: 1,
     gap: 5,
+    flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 10,

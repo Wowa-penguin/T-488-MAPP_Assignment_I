@@ -44,6 +44,14 @@ const COLORS = [
   '#f783ac',
   '#20c997',
   '#ffffff',
+  '#cccccc',
+  '#ffd43b',
+  '#94d82d',
+  '#339af0',
+  '#e599f7',
+  '#ff922b',
+  '#63e6be',
+  '#adb5bd',
 ];
 
 const AllLists = ({ boardId }: ListProp) => {
