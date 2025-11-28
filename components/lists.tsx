@@ -48,7 +48,7 @@ const COLORS = [
 ];
 
 const OPTIONS = [1, 2, 3];
-const PRIORITY = ['Low', 'Mid', 'High'];
+const PRIORITY = ['🧊Low', '📌Mid', '❗High'];
 const PRIORITY_COLORS = ['#72f029', '#d4cd00', '#fc1100'];
 
 const darkenHex = (hex: string, amount: number = 30): string => {
@@ -233,19 +233,28 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             push
             key={task.id}
           >
-            <Text style={styles.columnText}>
-              {task.isFinished ? '✅ ' : '⏳ '}
-              {task.name}
-            </Text>
-            <Text
-              style={[
-                styles.columnText,
-                { color: PRIORITY_COLORS[task.priority - 1] },
-              ]}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
             >
-              {' '}
-              {PRIORITY[task.priority - 1]}
-            </Text>
+              <Text style={[styles.columnText, { flex: 1 }]}>
+                {task.isFinished ? '✅ ' : '⏳ '}
+                {task.name}
+              </Text>
+              <Text
+                style={[
+                  styles.columnText,
+                  {
+                    color: PRIORITY_COLORS[task.priority - 1],
+                  },
+                ]}
+              >
+                {PRIORITY[task.priority - 1]}
+              </Text>
+            </View>
           </Link>
         ))}
 
@@ -303,10 +312,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   prioritySelect: {
-    width: 40,
+    width: 'auto',
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 25,
+    height: 'auto',
     borderRadius: 8,
   },
   colorCircle: {
