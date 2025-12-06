@@ -1,15 +1,23 @@
 import Tasks from '@/components/tasks';
-import { useData } from '@/util/dataState';
+import type { AppDispatch, RootState } from '@/store';
+import { changeMove } from '@/store/moveSlice';
+import { Task, updateTask } from '@/store/tasksSlice';
 import { Link, router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Index = () => {
   const { id } = useLocalSearchParams<{ id?: string }>();
 
-  const { tasks, setTasks } = useData();
-  const { lists } = useData();
-  const { isMove, setIsMove } = useData();
+  const dispatch = useDispatch<AppDispatch>();
+  const lists = useSelector((state: RootState) => state.lists.lists);
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+  const isMove = useSelector((state: RootState) => state.move.move);
+
+  // const { tasks, setTasks } = useData();
+  // const { lists } = useData();
+  // const { isMove, setIsMove } = useData();
 
   const idToNumber = Number(id);
 
@@ -22,7 +30,7 @@ const Index = () => {
   );
 
   const handleMove = (id: number) => {
-    setIsMove(true);
+    dispatch(changeMove(true));
     router.navigate({
       pathname: '/tasks',
       params: { id: id },
@@ -30,7 +38,7 @@ const Index = () => {
   };
 
   const handleCancelMove = () => {
-    setIsMove(false);
+    dispatch(changeMove(true));
     router.navigate({
       pathname: '/tasks',
       params: { id: id },
@@ -38,13 +46,22 @@ const Index = () => {
   };
 
   const confirmMove = (newListId: number) => {
-    setIsMove(false);
+    dispatch(changeMove(false));
 
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === idToNumber ? { ...task, listId: newListId } : task
-      )
-    );
+    if (!task) {
+      return null;
+    }
+
+    const newTask: Task = {
+      id: task.id,
+      name: task.name,
+      description: task.description,
+      priority: task.priority,
+      isFinished: task.isFinished,
+      listId: newListId,
+    };
+
+    dispatch(updateTask(newTask));
 
     router.navigate({
       pathname: '/lists',
@@ -135,6 +152,7 @@ const Index = () => {
           description={task.description}
           priority={task.priority}
           isFinished={task.isFinished}
+          listId={task.listId}
           listColor={currTaskList?.color}
           move={handleMove}
         />
@@ -145,6 +163,7 @@ const Index = () => {
           description={task.description}
           priority={task.priority}
           isFinished={task.isFinished}
+          listId={task.listId}
           listColor={'#ffffffff'}
           move={handleMove}
         />

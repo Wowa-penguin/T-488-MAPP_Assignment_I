@@ -1,4 +1,6 @@
-import { useData } from '@/util/dataState';
+import type { AppDispatch } from '@/store';
+import type { Task } from '@/store/tasksSlice';
+import { removeTask, updateTask } from '@/store/tasksSlice';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -9,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 type TaskProp = {
   id: number;
@@ -16,8 +19,8 @@ type TaskProp = {
   description: string;
   priority: number;
   isFinished: boolean;
+  listId: number;
   listColor: string;
-
   move: (id: number) => void;
 };
 
@@ -31,10 +34,11 @@ const Tasks = ({
   description,
   priority,
   isFinished,
+  listId,
   listColor,
   move,
 }: TaskProp) => {
-  const { setTasks } = useData();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -44,7 +48,7 @@ const Tasks = ({
   const [editIsFinished, setEditIsFinished] = useState(isFinished);
 
   const handleDeleteTask = (taskId: number) => {
-    setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    dispatch(removeTask(taskId));
     router.back();
   };
 
@@ -66,6 +70,7 @@ const Tasks = ({
       return next;
     });
   };
+
   const handleSaveEditing = (nextIsFinished?: boolean) => {
     if (!editName) {
       Alert.alert('Validation', 'Task name cannot be empty.');
@@ -75,19 +80,17 @@ const Tasks = ({
     const isFinishedToSave =
       typeof nextIsFinished === 'boolean' ? nextIsFinished : editIsFinished;
 
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              name: editName.trim(),
-              description: editDescription.trim(),
-              priority: editPriority,
-              isFinished: isFinishedToSave,
-            }
-          : task
-      )
-    );
+    const newTask: Task = {
+      id: id,
+      name: editName,
+      description: editDescription,
+      priority: editPriority,
+      isFinished: isFinishedToSave,
+      listId: listId,
+    };
+
+    dispatch(updateTask(newTask));
+
     setIsEditing(false);
   };
 

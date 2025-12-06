@@ -1,9 +1,11 @@
 import Lists from '@/components/lists';
 import data from '@/data/data.json';
-import { useData } from '@/util/dataState';
+import type { AppDispatch, RootState } from '@/store';
+import { addList, type List } from '@/store/listsSlice';
+import type { Task } from '@/store/tasksSlice';
+import { addTask } from '@/store/tasksSlice';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
-
 import {
   Alert,
   Modal,
@@ -14,25 +16,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-type ListsType = {
-  id: number;
-  name: string;
-  color: string;
-  boardId: number;
-};
+import { useDispatch, useSelector } from 'react-redux';
 
 type ListProp = {
   boardId: number;
-};
-
-type TaskType = {
-  id: number;
-  name: string;
-  description: string;
-  priority: number;
-  isFinished: boolean;
-  listId: number;
 };
 
 const COLORS = [
@@ -55,7 +42,9 @@ const COLORS = [
 ];
 
 const AllLists = ({ boardId }: ListProp) => {
-  const { lists, setLists, tasks, setTasks } = useData();
+  const dispatch = useDispatch<AppDispatch>();
+  const lists = useSelector((state: RootState) => state.lists.lists);
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
@@ -81,14 +70,14 @@ const AllLists = ({ boardId }: ListProp) => {
 
     const newId = lists[lists.length - 1].id + 1;
 
-    const newList: ListsType = {
+    const newList: List = {
       id: newId,
       name: name.trim(),
       color: color.trim(),
       boardId,
     };
 
-    setLists((prev) => [...prev, newList]);
+    dispatch(addList(newList));
 
     setEditModalVisible(false);
     setName('');
@@ -106,10 +95,10 @@ const AllLists = ({ boardId }: ListProp) => {
 
     if (!trimmedName) return;
 
-    const lastTask = tasks[tasks.length - 1] as TaskType;
+    const lastTask = tasks[tasks.length - 1] as Task;
     const newId = lastTask ? lastTask.id + 1 : 1;
 
-    const newTask: TaskType = {
+    const newTask: Task = {
       id: newId,
       name: trimmedName,
       description: trimmedDescription,
@@ -118,7 +107,7 @@ const AllLists = ({ boardId }: ListProp) => {
       listId,
     };
 
-    setTasks((prev) => [...prev, newTask]);
+    dispatch(addTask(newTask));
   };
 
   return (
@@ -181,6 +170,7 @@ const AllLists = ({ boardId }: ListProp) => {
             name={list.name}
             color={list.color}
             tasks={list.tasks}
+            boardId={list.boardId}
             onAddTask={(name, description, priority) =>
               handleAddTask(list.id, name, description, priority)
             }

@@ -1,4 +1,5 @@
-import { useData } from '@/util/dataState';
+import type { AppDispatch } from '@/store';
+import { List, removeList, updateList } from '@/store/listsSlice';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -12,11 +13,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 type ListProps = {
   name: string;
   id: number;
   color: string;
+  boardId: number;
   tasks: {
     id: number;
     name: string;
@@ -68,9 +71,8 @@ const darkenHex = (hex: string, amount: number = 30): string => {
   return newColor;
 };
 
-const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
-  const { deleteList } = useData();
-  const { setLists } = useData();
+const Lists = ({ id, name, color, tasks, boardId, onAddTask }: ListProps) => {
+  const dispatch = useDispatch<AppDispatch>();
 
   const [listName, setListName] = useState(name);
   const [listColor, setListColor] = useState(color);
@@ -103,18 +105,21 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: () => deleteList(id),
+          onPress: () => dispatch(removeList(id)),
         },
       ]
     );
   };
 
-  const handleNameChange = () => {
-    setLists((prev) =>
-      prev.map((list) =>
-        list.id === id ? { ...list, name: listName, color: listColor } : list
-      )
-    );
+  const handleEditList = () => {
+    const newList: List = {
+      id: id,
+      name: listName,
+      color: listColor,
+      boardId: boardId,
+    };
+
+    dispatch(updateList(newList));
     setEditListVar(false);
   };
 
@@ -208,7 +213,7 @@ const Lists = ({ id, name, color, tasks, onAddTask }: ListProps) => {
             ))}
           </View>
           <View style={styles.confirmButton}>
-            <Button title="Confirm" onPress={handleNameChange} />
+            <Button title="Confirm" onPress={handleEditList} />
           </View>
         </View>
       ) : (

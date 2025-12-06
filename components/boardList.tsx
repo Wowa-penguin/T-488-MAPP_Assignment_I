@@ -1,5 +1,7 @@
 import Boards from '@/components/boards';
-import data from '@/data/data.json';
+import type { AppDispatch, RootState } from '@/store';
+import type { Board } from '@/store/boardSlice';
+import { addBoard, removeBoard, updateBoard } from '@/store/boardSlice';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -11,21 +13,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-type BoardType = {
-  id: number;
-  name: string;
-  description: string;
-  thumbnailPhoto: string;
-};
+import { useDispatch, useSelector } from 'react-redux';
 
 const BoardList = () => {
-  const [boards, setBoards] = useState<BoardType[]>(data.boards);
+  const dispatch = useDispatch<AppDispatch>();
+  const boards = useSelector((state: RootState) => state.boards.boards);
 
+  //* ### New or add state ###
   const [newName, setNewName] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newThumbnailPhoto, setNewThumbnailPhoto] = useState('');
 
+  //* ### edit states ###
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editName, setEditName] = useState('');
   const [editDescription, setEditDescription] = useState('');
@@ -40,21 +39,21 @@ const BoardList = () => {
 
     const nextId = boards.length > 0 ? boards[boards.length - 1].id + 1 : 1;
 
-    const newBoard: BoardType = {
+    const newBoard: Board = {
       id: nextId,
       name: newName,
       description: newDescription,
       thumbnailPhoto: newThumbnailPhoto,
     };
 
-    setBoards((prev) => [...prev, newBoard]);
+    dispatch(addBoard(newBoard));
 
     setNewName('');
     setNewDescription('');
     setNewThumbnailPhoto('');
   };
 
-  const handleEditBoard = (board: BoardType) => {
+  const handleEditBoard = (board: Board) => {
     setEditingId(board.id);
     setEditName(board.name);
     setEditDescription(board.description);
@@ -65,25 +64,20 @@ const BoardList = () => {
   const handleSaveEdit = () => {
     if (editingId === null) return;
 
-    setBoards((prev) =>
-      prev.map((board) =>
-        board.id === editingId
-          ? {
-              ...board,
-              name: editName,
-              description: editDescription,
-              thumbnailPhoto: editThumbnailPhoto,
-            }
-          : board
-      )
-    );
+    const newBoard: Board = {
+      id: editingId,
+      name: editName,
+      description: editDescription,
+      thumbnailPhoto: editThumbnailPhoto,
+    };
 
+    dispatch(updateBoard(newBoard));
     setEditModalVisible(false);
     setEditingId(null);
   };
 
   const handleDeleteBoard = (boardToDelete: number) => {
-    setBoards((prev) => prev.filter((b) => b.id !== boardToDelete));
+    dispatch(removeBoard(boardToDelete));
 
     if (editingId === boardToDelete) {
       setEditingId(null);
@@ -94,7 +88,7 @@ const BoardList = () => {
     }
   };
 
-  const confirmDeleteBoard = (board: BoardType) => {
+  const confirmDeleteBoard = (board: Board) => {
     Alert.alert(
       'Delete board',
       `Are you sure you want to delete "${board.name}"?`,
